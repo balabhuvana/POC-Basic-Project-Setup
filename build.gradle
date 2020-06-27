@@ -16,6 +16,9 @@ buildscript {
     ext.legacySupportVersion = '1.0.0'
     ext.androidGoogleMaterialVersion = '1.1.0'
 
+    ext.room_version = '2.2.5'
+    ext.persistance_room_version = '1.0.0'
+
     repositories {
         google()
         jcenter()
