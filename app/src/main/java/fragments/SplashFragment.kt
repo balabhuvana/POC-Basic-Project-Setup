@@ -1,4 +1,4 @@
-package com.arunv.poc_basic_project_setup
+package fragments
 
 
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_splash.*
 
 /**
