@@ -8,10 +8,10 @@ import room.User
 import room.UserDao
 import room.UserRoomDatabase
 
-class LoginViewModel(application: Application) : AndroidViewModel(application) {
+class RegistrationViewModel(application: Application) : AndroidViewModel(application) {
 
     private var userRepository: UserRepository? = null
-    private var userObserverLiveData: LiveData<List<User>>? = null
+    private var userListLiveData: LiveData<List<User>>? = null
     private var userLiveData: LiveData<User>? = null
 
     init {
@@ -21,16 +21,15 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         userRepository = UserRepository(userDao)
     }
 
+    fun insertUserRecord(user: User) {
+        userRepository?.insertUserRecord(user)
+    }
+
     fun selectUserList() {
-        userObserverLiveData = userRepository?.selectUserList()
+        userListLiveData = userRepository?.selectUserList()
     }
 
-    fun selectSpecificUser(userName: Int, userPassword: String) {
-        userLiveData = userRepository?.selectUserRecord(userName, userPassword)
+    fun userObserverLiveData(): LiveData<List<User>>? {
+        return userListLiveData;
     }
-
-    fun observeSpecificUser(): LiveData<User>? {
-        return userLiveData
-    }
-
 }

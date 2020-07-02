@@ -15,7 +15,7 @@ interface UserDao {
     @Query("SELECT * from user_table")
     fun getUserList(): LiveData<List<User>>
 
-    @Query("SELECT * from user_table where user_id = :rollNo LIMIT 1")
-    fun getUserRecord(rollNo: Int): LiveData<User>
+    @Query("SELECT * from user_table where user_name = :userName and user_password =:userPassword LIMIT 1")
+    fun getUserRecord(userName: Int, userPassword: String): LiveData<User>
 
 }

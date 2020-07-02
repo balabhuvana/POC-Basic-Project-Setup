@@ -39,8 +39,15 @@ class LoginFragment : Fragment() {
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         btnLogin.setOnClickListener {
-            loginViewModel.selectSpecificUser(etUserName.text.toString().toInt())
-            observeSpecificUser(loginViewModel)
+            if (etUserName.text.isNotEmpty() && etPassword.text.isNotEmpty()) {
+                loginViewModel.selectSpecificUser(
+                    etUserName.text.toString().toInt(),
+                    etPassword.text.toString().trim()
+                )
+                observeSpecificUser(loginViewModel)
+            } else {
+                Toast.makeText(context, "Data should not be empty", Toast.LENGTH_LONG).show()
+            }
         }
 
         btnRegister.setOnClickListener {
@@ -53,7 +60,7 @@ class LoginFragment : Fragment() {
             ?.observe(viewLifecycleOwner,
                 Observer<User> { user ->
                     if (user != null) {
-                        Log.i("----> ", "User is not null")
+                        Log.i("----> ", "User is login successfully")
                     } else {
                         Toast.makeText(activity, "Invalid User", Toast.LENGTH_LONG).show()
                     }

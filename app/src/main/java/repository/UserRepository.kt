@@ -2,6 +2,8 @@ package repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import room.User
 import room.UserDao
 
@@ -14,7 +16,9 @@ class UserRepository(private var userDao: UserDao) {
 
 
     fun insertUserRecord(user: User) {
-        userDao.insertUser(user)
+        GlobalScope.launch {
+            userDao.insertUser(user)
+        }
     }
 
     fun selectUserList(): LiveData<List<User>> {
@@ -22,8 +26,8 @@ class UserRepository(private var userDao: UserDao) {
         return userListData
     }
 
-    fun selectUserRecord(rollNo: Int): LiveData<User> {
-        userLiveData = userDao.getUserRecord(rollNo)
+    fun selectUserRecord(userName: Int, userPassword:String): LiveData<User> {
+        userLiveData = userDao.getUserRecord(userName, userPassword)
         return userLiveData as LiveData<User>
     }
 
