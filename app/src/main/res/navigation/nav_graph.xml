@@ -24,6 +24,8 @@
             app:destination="@id/registrationFragment" />
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
@@ -33,6 +35,8 @@
         tools:layout="@layout/fragment_registration" >
         <action
             android:id="@+id/action_registrationFragment_to_homeFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
