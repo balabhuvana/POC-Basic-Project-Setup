@@ -2,7 +2,6 @@ package fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,13 +39,15 @@ class LoginFragment : Fragment() {
 
         btnLogin.setOnClickListener {
             if (etUserName.text.isNotEmpty() && etPassword.text.isNotEmpty()) {
+                showOrHideProgressBar(View.VISIBLE)
                 loginViewModel.selectSpecificUser(
                     etUserName.text.toString().toInt(),
                     etPassword.text.toString().trim()
                 )
-                observeSpecificUser(loginViewModel)
+
+                observerLoginViewModel()
             } else {
-                Toast.makeText(context, "Data should not be empty", Toast.LENGTH_LONG).show()
+                showToastMessage("Data should not be empty")
             }
         }
 
@@ -55,17 +56,13 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun observeSpecificUser(loginViewModel: LoginViewModel) {
-        loginViewModel.observeSpecificUser()
-            ?.observe(viewLifecycleOwner,
-                Observer<User> { user ->
-                    if (user != null) {
-                        Log.i("----> ", "User is login successfully")
-                    } else {
-                        Toast.makeText(activity, "Invalid User", Toast.LENGTH_LONG).show()
-                    }
-                })
+    private fun launchHomeFragment() {
+        val homeNavDirections: NavDirections =
+            LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+        val navController: NavController = findNavController()
+        navController.navigate(homeNavDirections)
     }
+
 
     private fun launchRegistrationScreen() {
         val registrationDirection: NavDirections =
@@ -73,5 +70,28 @@ class LoginFragment : Fragment() {
 
         val navigationController: NavController = findNavController()
         navigationController.navigate(registrationDirection)
+    }
+
+    private fun observerLoginViewModel() {
+        loginViewModel.observeSpecificUser()
+            ?.observe(viewLifecycleOwner,
+                Observer<User> { user ->
+                    Thread.sleep(2000)
+                    showOrHideProgressBar(View.GONE)
+                    if (user != null) {
+                        showToastMessage("User is login successfully")
+                        launchHomeFragment()
+                    } else {
+                        showToastMessage("Invalid User")
+                    }
+                })
+    }
+
+    private fun showToastMessage(message: String) {
+        Toast.makeText(activity, "" + message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showOrHideProgressBar(type: Int) {
+        loginProgressBar.visibility = type
     }
 }
