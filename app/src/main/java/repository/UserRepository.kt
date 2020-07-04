@@ -9,8 +9,6 @@ import room.UserDao
 
 class UserRepository(private var userDao: UserDao) {
 
-    private var userListData: LiveData<List<User>> =
-        MutableLiveData<List<User>>()
 
     private var userLiveData: LiveData<User>? = null
 
