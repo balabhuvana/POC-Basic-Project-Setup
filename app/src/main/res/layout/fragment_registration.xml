@@ -69,14 +69,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/confirmPasswordWrapper" />
 
-    <Button
-        android:id="@+id/btnSample"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
-        android:text="Sample"
+    <ProgressBar
+        android:id="@+id/registrationProgressBar"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnRegister" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

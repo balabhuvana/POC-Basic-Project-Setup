@@ -9,7 +9,8 @@ class User {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "user_id")
-    var userId: Int = 0
+    var userId: Long = 0
+        get() = field
 
     @ColumnInfo(name = "user_name")
     var userName: String = ""

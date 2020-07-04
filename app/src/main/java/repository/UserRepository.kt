@@ -21,13 +21,17 @@ class UserRepository(private var userDao: UserDao) {
         }
     }
 
-    fun selectUserList(): LiveData<List<User>> {
-        userListData = userDao.getUserList()
-        return userListData
+    fun selectUserRecord(user: User): LiveData<User> {
+        return selectUserRecord(user.userName.toInt())
     }
 
-    fun selectUserRecord(userName: Int, userPassword:String): LiveData<User> {
-        userLiveData = userDao.getUserRecord(userName, userPassword)
+    private fun selectUserRecord(userName: Int): LiveData<User> {
+        userLiveData = userDao.getUserRecord(userName)
+        return userLiveData as LiveData<User>
+    }
+
+    fun selectUserRecordWithPassword(userName: Int, userPassword: String): LiveData<User> {
+        userLiveData = userDao.getUserRecordWithPassword(userName, userPassword)
         return userLiveData as LiveData<User>
     }
 

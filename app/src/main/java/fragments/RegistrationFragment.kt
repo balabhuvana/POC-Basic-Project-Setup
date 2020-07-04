@@ -2,7 +2,6 @@ package fragments
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_login.btnRegister
 import kotlinx.android.synthetic.main.fragment_registration.*
@@ -35,7 +37,6 @@ class RegistrationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         registrationViewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
-
         btnRegister.setOnClickListener {
 
             val userName: String = etRegUserName.text.toString()
@@ -47,30 +48,45 @@ class RegistrationFragment : Fragment() {
                 user.isUserLogined = true
                 user.userName = userName
                 user.password = etRegPassword.text.toString()
+
+                progressBarAction(View.VISIBLE)
                 registrationViewModel.insertUserRecord(user)
+                registrationViewModel.selectUserRecord(user)
+
+                observeRegistrationViewModelLiveData()
+
             } else {
                 Toast.makeText(context, "Data should not be empty", Toast.LENGTH_LONG).show()
             }
 
         }
-
-        btnSample.setOnClickListener {
-            registrationViewModel.selectUserList()
-
-            registrationViewModel.userObserverLiveData()
-                ?.observe(viewLifecycleOwner,
-                    Observer<List<User>> { userList ->
-                        if (userList != null) {
-                            Log.i("-----> ", "User list size : " + userList.size)
-                            for (user in userList) {
-                                Log.i("-----> ", "User ID : " + user.userId)
-                                Log.i("----->", "User Name : " + user.userName)
-                            }
-                        } else {
-                            Toast.makeText(activity, "Invalid User", Toast.LENGTH_LONG).show()
-                        }
-                    })
-        }
     }
 
+    private fun observeRegistrationViewModelLiveData() {
+        registrationViewModel.observeUserRecord()?.observe(viewLifecycleOwner, Observer {
+            Thread.sleep(5000)
+            progressBarAction(View.GONE)
+            if (it != null) {
+                showToastMessage("User record inserted successfully")
+                launchHomeFragment()
+            } else {
+                showToastMessage("User record is not inserted successfully")
+            }
+        })
+    }
+
+    private fun launchHomeFragment() {
+        val homeNavDirections: NavDirections =
+            RegistrationFragmentDirections.actionRegistrationFragmentToHomeFragment()
+        val navController: NavController = findNavController()
+        navController.navigate(homeNavDirections)
+    }
+
+    private fun progressBarAction(type: Int) {
+        registrationProgressBar.visibility = type
+    }
+
+    private fun showToastMessage(message: String) {
+        Toast.makeText(activity, "" + message, Toast.LENGTH_LONG).show()
+    }
 }
