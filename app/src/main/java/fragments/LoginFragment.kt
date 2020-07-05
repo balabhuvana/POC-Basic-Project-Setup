@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -38,7 +39,7 @@ class LoginFragment : Fragment() {
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         btnLogin.setOnClickListener {
-            if (etUserName.text.isNotEmpty() && etPassword.text.isNotEmpty()) {
+            if (validateUserInput(etUserName, etPassword)) {
                 showOrHideProgressBar(View.VISIBLE)
                 loginViewModel.selectSpecificUser(
                     etUserName.text.toString().toInt(),
@@ -93,5 +94,25 @@ class LoginFragment : Fragment() {
 
     private fun showOrHideProgressBar(type: Int) {
         loginProgressBar.visibility = type
+    }
+
+    private fun validateUserInput(editTextUserName: EditText, editTextPassword: EditText): Boolean {
+        return validateUserName(editTextUserName) && validatePassword(editTextPassword)
+    }
+
+    private fun validateUserName(editTextUserName: EditText): Boolean {
+        return editTextUserName.text.isNotEmpty() && validateUserNameLength(editTextUserName.text.toString())
+    }
+
+    fun validateUserNameLength(userName: String): Boolean {
+        return userName.length > 5
+    }
+
+    private fun validatePassword(editTextPassword: EditText): Boolean {
+        return editTextPassword.text.isNotEmpty() && validatePasswordLength(editTextPassword.text.toString())
+    }
+
+    fun validatePasswordLength(password: String): Boolean {
+        return password.length > 4
     }
 }

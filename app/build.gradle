@@ -43,9 +43,7 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:$legacySupportVersion"
     implementation "com.google.android.material:material:$androidGoogleMaterialVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "androidx.test:runner:$testRunner"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+
 
     // Kotlin
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -85,4 +83,29 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:$persistance_room_version"
     kapt "androidx.room:room-compiler:$room_version"
 
+    // Core library
+    androidTestImplementation "androidx.test:core:$testRunner"
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation "androidx.test:runner:$testRunner"
+    androidTestImplementation "androidx.test:rules:$testRunner"
+
+    // Assertions
+    androidTestImplementation "androidx.test.ext:junit:$junit"
+    androidTestImplementation "androidx.test.ext:truth:$testRunner"
+    androidTestImplementation "com.google.truth:truth:$googleTruth"
+
+    // Espresso dependencies
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-accessibility:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-web:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espressoVersion"
+
+    // The following Espresso dependency can be either "implementation"
+    // or "androidTestImplementation", depending on whether you want the
+    // dependency to appear on your APK's compile classpath or the test APK
+    // classpath.
+    androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
 }

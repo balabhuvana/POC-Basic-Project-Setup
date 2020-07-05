@@ -1,4 +1,4 @@
-package com.arunv.poc_basic_project_setup
+package fragments
 
 
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_second.*
 
 /**

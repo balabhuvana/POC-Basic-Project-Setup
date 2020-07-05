@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -40,23 +41,29 @@ class RegistrationFragment : Fragment() {
         btnRegister.setOnClickListener {
 
             val userName: String = etRegUserName.text.toString()
-            val userPassword: String = etRegPassword.text.toString()
-            val userConfirmPassword: String = etConfirmPassword.text.toString()
 
-            if (userName.isNotEmpty() && userPassword.isNotEmpty() && userConfirmPassword.isNotEmpty()) {
-                val user = User()
-                user.isUserLogined = true
-                user.userName = userName
-                user.password = etRegPassword.text.toString()
+            if (validateUserInput(etRegUserName, etRegPassword, etConfirmPassword)) {
+                if (validateMatchPasswordAndConfirmPassword(
+                        etRegPassword.text.toString(),
+                        etConfirmPassword.text.toString()
+                    )
+                ) {
+                    val user = User()
+                    user.isUserLogined = true
+                    user.userName = userName
+                    user.password = etRegPassword.text.toString()
 
-                progressBarAction(View.VISIBLE)
-                registrationViewModel.insertUserRecord(user)
-                registrationViewModel.selectUserRecord(user)
+                    progressBarAction(View.VISIBLE)
+                    registrationViewModel.insertUserRecord(user)
+                    registrationViewModel.selectUserRecord(user)
 
-                observeRegistrationViewModelLiveData()
+                    observeRegistrationViewModelLiveData()
+                } else {
+                    showToastMessage("Password should not mismatch")
+                }
 
             } else {
-                Toast.makeText(context, "Data should not be empty", Toast.LENGTH_LONG).show()
+                showToastMessage("Data should not be empty")
             }
 
         }
@@ -88,5 +95,48 @@ class RegistrationFragment : Fragment() {
 
     private fun showToastMessage(message: String) {
         Toast.makeText(activity, "" + message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun validateUserInput(
+        editTextUserName: EditText,
+        editTextPassword: EditText,
+        editTextConfirmPassword: EditText
+    ): Boolean {
+        return validateUserName(editTextUserName) && validatePassword(editTextPassword) && validateConfirmPassword(
+            editTextConfirmPassword
+        )
+    }
+
+    private fun validateUserName(editTextUserName: EditText): Boolean {
+        return editTextUserName.text.isNotEmpty() && validateUserNameLength(editTextUserName.text.toString())
+    }
+
+    fun validateUserNameLength(userName: String): Boolean {
+        return userName.length > 5
+    }
+
+    private fun validatePassword(editTextPassword: EditText): Boolean {
+        return editTextPassword.text.isNotEmpty() && validatePasswordLength(editTextPassword.text.toString())
+    }
+
+    fun validatePasswordLength(password: String): Boolean {
+        return password.length > 4
+    }
+
+    private fun validateConfirmPassword(editTextConfirmPassword: EditText): Boolean {
+        return editTextConfirmPassword.text.isNotEmpty() && validateConfirmPasswordLength(
+            editTextConfirmPassword.text.toString()
+        )
+    }
+
+    fun validateConfirmPasswordLength(password: String): Boolean {
+        return password.length > 4
+    }
+
+    fun validateMatchPasswordAndConfirmPassword(
+        password: String,
+        confirmPassword: String
+    ): Boolean {
+        return password == confirmPassword
     }
 }
