@@ -16,4 +16,5 @@
     <string name="welcome_user_name">"Welcome %s "</string>
     <string name="next_screen">Next Screen</string>
     <string name="second_screen">Second Screen</string>
+    <string name="bundle_data">"Bundle data : %s "</string>
 </resources>

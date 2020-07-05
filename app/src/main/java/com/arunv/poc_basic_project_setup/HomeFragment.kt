@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
@@ -39,9 +40,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun launchSecondScreen() {
-        val navDirections: NavDirections =
-            HomeFragmentDirections.actionHomeFragmentToSecondFragment()
-        findNavController().navigate(navDirections)
+        val bundle: Bundle = bundleOf("amount" to " World ")
+        findNavController().navigate(R.id.action_homeFragment_to_secondFragment, bundle)
     }
 
 }
