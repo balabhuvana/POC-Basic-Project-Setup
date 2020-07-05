@@ -56,9 +56,9 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun launchHomeFragment() {
+    private fun launchHomeFragment(user: User) {
         val homeNavDirections: NavDirections =
-            LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+            LoginFragmentDirections.actionLoginFragmentToHomeFragment(userNameArgs = user.userName.toInt())
         val navController: NavController = findNavController()
         navController.navigate(homeNavDirections)
     }
@@ -80,7 +80,7 @@ class LoginFragment : Fragment() {
                     showOrHideProgressBar(View.GONE)
                     if (user != null) {
                         showToastMessage("User is login successfully")
-                        launchHomeFragment()
+                        launchHomeFragment(user)
                     } else {
                         showToastMessage("Invalid User")
                     }

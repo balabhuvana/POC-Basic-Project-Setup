@@ -2,15 +2,18 @@ package com.arunv.poc_basic_project_setup
 
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import kotlinx.android.synthetic.main.fragment_home.*
 
-/**
- * A simple [Fragment] subclass.
- */
 class HomeFragment : Fragment() {
+
+    private val args: HomeFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -18,6 +21,27 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        setWelcomeMessage(args.userNameArgs)
+
+        btnStartNextScreen.setOnClickListener {
+            launchSecondScreen()
+        }
+    }
+
+    private fun setWelcomeMessage(userName: Int) {
+        val welcomeMessage: String = getString(R.string.welcome_user_name, userName.toString())
+        tvUserName.text = welcomeMessage
+    }
+
+    private fun launchSecondScreen() {
+        val navDirections: NavDirections =
+            HomeFragmentDirections.actionHomeFragmentToSecondFragment()
+        findNavController().navigate(navDirections)
     }
 
 }

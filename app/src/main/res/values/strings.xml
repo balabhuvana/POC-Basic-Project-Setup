@@ -13,4 +13,7 @@
     <string name="register">Register</string>
     <string name="enter_full_name">Full Name</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="welcome_user_name">"Welcome %s "</string>
+    <string name="next_screen">Next Screen</string>
+    <string name="second_screen">Second Screen</string>
 </resources>

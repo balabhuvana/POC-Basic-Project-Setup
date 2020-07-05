@@ -63,21 +63,21 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun observeRegistrationViewModelLiveData() {
-        registrationViewModel.observeUserRecord()?.observe(viewLifecycleOwner, Observer {
+        registrationViewModel.observeUserRecord()?.observe(viewLifecycleOwner, Observer { user ->
             Thread.sleep(5000)
             progressBarAction(View.GONE)
-            if (it != null) {
+            if (user != null) {
                 showToastMessage("User record inserted successfully")
-                launchHomeFragment()
+                launchHomeFragment(user)
             } else {
                 showToastMessage("User record is not inserted successfully")
             }
         })
     }
 
-    private fun launchHomeFragment() {
+    private fun launchHomeFragment(user: User) {
         val homeNavDirections: NavDirections =
-            RegistrationFragmentDirections.actionRegistrationFragmentToHomeFragment()
+            RegistrationFragmentDirections.actionRegistrationFragmentToHomeFragment(userNameArgs = user.userName.toInt())
         val navController: NavController = findNavController()
         navController.navigate(homeNavDirections)
     }
