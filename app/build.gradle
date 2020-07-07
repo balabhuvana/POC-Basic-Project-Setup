@@ -18,6 +18,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        testApplicationId "com.arunv.poc_basic_project_setup_test"
+        testInstrumentationRunner "com.arunv.poc_basic_project_setup_test.Instrumentation"
     }
     buildTypes {
         release {
@@ -31,6 +34,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        androidTest {
+            assets.srcDirs = ['src/androidTest/assets']
+        }
     }
 }
 
@@ -108,4 +116,11 @@ dependencies {
     // dependency to appear on your APK's compile classpath or the test APK
     // classpath.
     androidTestImplementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
+
+    // cucumber
+    androidTestImplementation "info.cukes:cucumber-android:$cucumber_version@jar"
+    androidTestImplementation "info.cukes:cucumber-picocontainer:$cucumber_version"
+
+    // fragment testing
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 }

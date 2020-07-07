@@ -1,4 +1,4 @@
-package com.arunv.poc_basic_project_setup
+package com.arunv.poc_basic_project_setup_test
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
