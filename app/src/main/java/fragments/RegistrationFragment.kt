@@ -14,7 +14,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
-import kotlinx.android.synthetic.main.fragment_login.btnRegister
 import kotlinx.android.synthetic.main.fragment_registration.*
 import room.User
 import viewmodels.RegistrationViewModel
@@ -40,18 +39,18 @@ class RegistrationFragment : Fragment() {
         registrationViewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
         btnRegister.setOnClickListener {
 
-            val userName: String = etRegUserName.text.toString()
+            val userName: String = etUserName.text.toString()
 
-            if (validateUserInput(etRegUserName, etRegPassword, etConfirmPassword)) {
+            if (validateUserInput(etUserName, etPassword, etConfirmPassword)) {
                 if (validateMatchPasswordAndConfirmPassword(
-                        etRegPassword.text.toString(),
+                        etPassword.text.toString(),
                         etConfirmPassword.text.toString()
                     )
                 ) {
                     val user = User()
                     user.isUserLogined = true
                     user.userName = userName
-                    user.password = etRegPassword.text.toString()
+                    user.password = etPassword.text.toString()
 
                     progressBarAction(View.VISIBLE)
                     registrationViewModel.insertUserRecord(user)
