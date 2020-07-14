@@ -18,6 +18,9 @@ interface UserDao {
     @Query("SELECT * from user_table where user_name = :userName LIMIT 1")
     fun getUserRecord(userName: Int): LiveData<User>
 
+    @Query("SELECT * from user_table where user_name = :userName LIMIT 1")
+    fun getUserRecordTest(userName: Int): User
+
     @Query("SELECT * from user_table where user_name = :userName and user_password =:userPassword LIMIT 1")
     fun getUserRecordWithPassword(userName: Int, userPassword: String): LiveData<User>
 
