@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import cucumber.api.java.en.And
 import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
 import org.junit.runner.RunWith
 
 
@@ -38,6 +39,11 @@ class CommonUtilSteps {
     fun I_should_see_the(textToValidate: String) {
         onView(withText(textToValidate)).inRoot(ToastMatcher())
             .check(matches(isDisplayed()))
+    }
+
+    @When("^I press back button")
+    fun I_press_back_button() {
+        Espresso.pressBack()
     }
 
 

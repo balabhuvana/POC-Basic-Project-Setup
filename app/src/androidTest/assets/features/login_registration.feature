@@ -13,11 +13,11 @@ Feature: Login and Registration screen validation
     When I enter the username ""
     And I press login button
     Then I should see the "Data should not be empty"
-    When I enter the username "123456"
+    When I enter the username "100009"
     And I press login button
     Then I should see the "Data should not be empty"
-    And I enter the password "abcdef"
-    Then I should able to see the entered input "123456" and "abcdef"
+    And I enter the password "aaasss"
+    Then I should able to see the entered input "100009" and "aaasss"
     When I press login button
     Then I should see the "Invalid User"
 
@@ -44,4 +44,13 @@ Feature: Login and Registration screen validation
     And I press register button
     And I wait for 5 second
     Then I should see the home screen ui
-    
+
+  Scenario: Validate login user input of username and password
+    When Launch the single activity
+    And I wait for 5 second
+    Then I should see the login ui
+    When I enter the username "123456"
+    And I enter the password "abcdef"
+    When I press login button
+    And I wait for 5 second
+    Then I should see the home screen ui
