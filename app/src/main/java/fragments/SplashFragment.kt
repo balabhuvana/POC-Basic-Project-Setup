@@ -42,7 +42,7 @@ class SplashFragment : Fragment() {
             val navController: NavController = findNavController()
             navController.navigate(navDirections)
             showOrHideProgressBar(View.GONE)
-        }, 5000)
+        }, 2000)
 
     }
 
