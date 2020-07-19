@@ -105,7 +105,7 @@ class LoginFragment : Fragment() {
     }
 
     fun validateUserNameLength(userName: String): Boolean {
-        return userName.length > 5
+        return userName.length > 3
     }
 
     private fun validatePassword(editTextPassword: EditText): Boolean {
@@ -113,6 +113,6 @@ class LoginFragment : Fragment() {
     }
 
     fun validatePasswordLength(password: String): Boolean {
-        return password.length > 4
+        return password.length > 3
     }
 }
