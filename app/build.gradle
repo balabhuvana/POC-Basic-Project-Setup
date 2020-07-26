@@ -10,10 +10,10 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.arunv.poc_basic_project_setup"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -130,4 +130,11 @@ dependencies {
 
     // optional - Test helpers
     androidTestImplementation "androidx.work:work-testing:$work_version"
+
+    // material design
+    implementation "com.google.android.material:material:$material_version"
+
+    // Activity Result API
+    implementation 'androidx.activity:activity:1.2.0-alpha07'
+    implementation 'androidx.fragment:fragment:1.3.0-alpha07'
 }

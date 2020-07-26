@@ -1,6 +1,8 @@
 package fragments
 
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,8 @@ import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_login.*
 import room.User
+import util.PermissionUtil
+import util.PermissionUtil.Companion.requestMultiplePermission
 import viewmodels.LoginViewModel
 
 /**
@@ -38,17 +42,26 @@ class LoginFragment : Fragment() {
 
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
-        btnLogin.setOnClickListener {
-            if (validateUserInput(etUserName, etPassword)) {
-                showOrHideProgressBar(View.VISIBLE)
-                loginViewModel.selectSpecificUser(
-                    etUserName.text.toString().toInt(),
-                    etPassword.text.toString().trim()
-                )
+        PermissionUtil.handleMultipleRunTimePermission(this)
 
-                observerLoginViewModel()
+        btnLogin.setOnClickListener {
+            if ((requireActivity().checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
+                && (requireActivity().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED)
+                && (requireActivity().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)
+            ) {
+                if (validateUserInput(etUserName, etPassword)) {
+                    showOrHideProgressBar(View.VISIBLE)
+                    loginViewModel.selectSpecificUser(
+                        etUserName.text.toString().toInt(),
+                        etPassword.text.toString().trim()
+                    )
+
+                    observerLoginViewModel()
+                } else {
+                    showToastMessage("Data should not be empty")
+                }
             } else {
-                showToastMessage("Data should not be empty")
+                requestMultiplePermission()
             }
         }
 

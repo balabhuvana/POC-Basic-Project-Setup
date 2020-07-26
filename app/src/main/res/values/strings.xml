@@ -17,4 +17,8 @@
     <string name="next_screen">Next Screen</string>
     <string name="second_screen">Second Screen</string>
     <string name="bundle_data">"Bundle data : %s "</string>
+    <string name="read_phone_state_ui">This permission need to read the incoming phone number</string>
+    <string name="action">Action</string>
+    <string name="permission_granted">Permission Granted</string>
+    <string name="permission_not_granted">Permission not granted</string>
 </resources>
