@@ -1,6 +1,8 @@
 package fragments
 
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_registration.*
 import room.User
+import util.PermissionUtil
 import viewmodels.RegistrationViewModel
 
 /**
@@ -39,30 +42,40 @@ class RegistrationFragment : Fragment() {
         registrationViewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
         btnRegister.setOnClickListener {
 
-            val userName: String = etUserName.text.toString()
+            PermissionUtil.handleMultipleRunTimePermission(this)
 
-            if (validateUserInput(etUserName, etPassword, etConfirmPassword)) {
-                if (validateMatchPasswordAndConfirmPassword(
-                        etPassword.text.toString(),
-                        etConfirmPassword.text.toString()
-                    )
-                ) {
-                    val user = User()
-                    user.isUserLogined = true
-                    user.userName = userName
-                    user.password = etPassword.text.toString()
+            if ((requireActivity().checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
+                && (requireActivity().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED)
+                && (requireActivity().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)
+            ) {
 
-                    progressBarAction(View.VISIBLE)
-                    registrationViewModel.insertUserRecord(user)
-                    registrationViewModel.selectUserRecord(user)
+                val userName: String = etUserName.text.toString()
 
-                    observeRegistrationViewModelLiveData()
+                if (validateUserInput(etUserName, etPassword, etConfirmPassword)) {
+                    if (validateMatchPasswordAndConfirmPassword(
+                            etPassword.text.toString(),
+                            etConfirmPassword.text.toString()
+                        )
+                    ) {
+                        val user = User()
+                        user.isUserLogined = true
+                        user.userName = userName
+                        user.password = etPassword.text.toString()
+
+                        progressBarAction(View.VISIBLE)
+                        registrationViewModel.insertUserRecord(user)
+                        registrationViewModel.selectUserRecord(user)
+
+                        observeRegistrationViewModelLiveData()
+                    } else {
+                        showToastMessage("Password should not mismatch")
+                    }
+
                 } else {
-                    showToastMessage("Password should not mismatch")
+                    showToastMessage("Data should not be empty")
                 }
-
             } else {
-                showToastMessage("Data should not be empty")
+                PermissionUtil.requestMultiplePermission()
             }
 
         }
