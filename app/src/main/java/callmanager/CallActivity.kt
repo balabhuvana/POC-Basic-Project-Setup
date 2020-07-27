@@ -27,11 +27,11 @@ class CallActivity : AppCompatActivity() {
         hideBottomNavigationBar()
 
         Thread.sleep(5000)
-        CallManager.cancelCall()
+        CallManager.cancelCall(baseContext)
 
 
         buttonHangup.setOnClickListener {
-            CallManager.cancelCall()
+            CallManager.cancelCall(baseContext)
         }
         buttonAnswer.setOnClickListener {
             CallManager.acceptCall()
@@ -41,9 +41,9 @@ class CallActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         updatesDisposable = CallManager.updates()
-                .doOnEach { Log.i(LOG_TAG, "updated call: $it") }
-                .doOnError { throwable -> Log.e(LOG_TAG, "Error processing call", throwable) }
-                .subscribe { updateView(it) }
+            .doOnEach { Log.i(LOG_TAG, "updated call: $it") }
+            .doOnError { throwable -> Log.e(LOG_TAG, "Error processing call", throwable) }
+            .subscribe { updateView(it) }
     }
 
     private fun updateView(gsmCall: GsmCall) {
@@ -97,13 +97,14 @@ class CallActivity : AppCompatActivity() {
 
     private fun startTimer() {
         timerDisposable = Observable.interval(1, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { textDuration.text = it.toDurationString() }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { textDuration.text = it.toDurationString() }
     }
 
     private fun stopTimer() {
         timerDisposable.dispose()
     }
 
-    private fun Long.toDurationString() = String.format("%02d:%02d:%02d", this / 3600, (this % 3600) / 60, (this % 60))
+    private fun Long.toDurationString() =
+        String.format("%02d:%02d:%02d", this / 3600, (this % 3600) / 60, (this % 60))
 }

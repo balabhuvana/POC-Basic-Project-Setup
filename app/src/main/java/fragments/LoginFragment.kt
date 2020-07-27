@@ -1,10 +1,7 @@
 package fragments
 
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.telecom.TelecomManager
 import android.view.LayoutInflater
@@ -23,7 +20,6 @@ import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_login.*
 import room.User
 import util.PermissionUtil
-import util.PermissionUtil.Companion.requestMultiplePermission
 import viewmodels.LoginViewModel
 
 /**
@@ -51,24 +47,19 @@ class LoginFragment : Fragment() {
         checkDefaultDialer()
 
         btnLogin.setOnClickListener {
-            if ((requireActivity().checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
-                && (requireActivity().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED)
-                && (requireActivity().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)
-            ) {
-                if (validateUserInput(etUserName, etPassword)) {
-                    showOrHideProgressBar(View.VISIBLE)
-                    loginViewModel.selectSpecificUser(
-                        etUserName.text.toString().toInt(),
-                        etPassword.text.toString().trim()
-                    )
 
-                    observerLoginViewModel()
-                } else {
-                    showToastMessage("Data should not be empty")
-                }
+            if (validateUserInput(etUserName, etPassword)) {
+                showOrHideProgressBar(View.VISIBLE)
+                loginViewModel.selectSpecificUser(
+                    etUserName.text.toString().toInt(),
+                    etPassword.text.toString().trim()
+                )
+
+                observerLoginViewModel()
             } else {
-                requestMultiplePermission()
+                showToastMessage("Data should not be empty")
             }
+
         }
 
         btnRegister.setOnClickListener {
@@ -136,7 +127,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkDefaultDialer() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
 
         val telecomManager =
             activity!!.getSystemService(AppCompatActivity.TELECOM_SERVICE) as TelecomManager

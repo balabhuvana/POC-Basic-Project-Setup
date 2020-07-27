@@ -1,11 +1,16 @@
 package callmanager
 
 import android.annotation.TargetApi
+import android.content.Context
 import android.os.Build
 import android.telecom.Call
 import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
+import room.Patient
+import room.UserDao
+import room.UserRoomDatabase
+import util.CommonUtils
 
 @TargetApi(Build.VERSION_CODES.M)
 object CallManager {
@@ -25,10 +30,10 @@ object CallManager {
         }
     }
 
-    fun cancelCall() {
+    fun cancelCall(context: Context) {
         currentCall?.let {
             when (it.state) {
-                Call.STATE_RINGING -> rejectCall()
+                Call.STATE_RINGING -> rejectCall(it.details.callerDisplayName, context)
                 else -> disconnectCall()
             }
         }
@@ -41,9 +46,25 @@ object CallManager {
         }
     }
 
-    private fun rejectCall() {
+    private fun rejectCall(phoneNumber: String, context: Context) {
         Log.i(LOG_TAG, "rejectCall")
-        currentCall?.reject(true, "Your token no is 8")
+        CommonUtils.uploadPhoneNUmber(context, phoneNumber)
+        Thread.sleep(5000)
+        currentCall?.reject(true, getPatientDetail(phoneNumber, context))
+    }
+
+    private fun getPatientDetail(phoneNumber: String, context: Context): String {
+        val userRoomDatabase: UserRoomDatabase =
+            context.let {
+                UserRoomDatabase.getDatabase(it)
+            }
+        val userDao: UserDao = userRoomDatabase.userDao()
+
+        val patient: Patient =
+            userDao.getPatientRecord(phoneNumber)
+
+        return "Token - " + patient.patientId + " - Hello World"
+
     }
 
     private fun disconnectCall() {
