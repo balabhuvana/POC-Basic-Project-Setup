@@ -33,7 +33,7 @@ object CallManager {
     fun cancelCall(context: Context) {
         currentCall?.let {
             when (it.state) {
-                Call.STATE_RINGING -> rejectCall(it.details.callerDisplayName, context)
+                Call.STATE_RINGING -> rejectCall(subject.value?.displayName, context)
                 else -> disconnectCall()
             }
         }
@@ -46,9 +46,9 @@ object CallManager {
         }
     }
 
-    private fun rejectCall(phoneNumber: String, context: Context) {
+    private fun rejectCall(phoneNumber: String?, context: Context) {
         Log.i(LOG_TAG, "rejectCall")
-        CommonUtils.uploadPhoneNUmber(context, phoneNumber)
+        CommonUtils.uploadPhoneNUmber(context, phoneNumber!!)
         Thread.sleep(5000)
         currentCall?.reject(true, getPatientDetail(phoneNumber, context))
     }
