@@ -1,6 +1,8 @@
 package fragments
 
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,31 +44,38 @@ class RegistrationFragment : Fragment() {
 
             PermissionUtil.handleMultipleRunTimePermission(this)
 
+            if ((requireActivity().checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
+                && (requireActivity().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED)
+                && (requireActivity().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)
+            ) {
 
-            val userName: String = etUserName.text.toString()
+                val userName: String = etUserName.text.toString()
 
-            if (validateUserInput(etUserName, etPassword, etConfirmPassword)) {
-                if (validateMatchPasswordAndConfirmPassword(
-                        etPassword.text.toString(),
-                        etConfirmPassword.text.toString()
-                    )
-                ) {
-                    val user = User()
-                    user.isUserLogined = true
-                    user.userName = userName
-                    user.password = etPassword.text.toString()
+                if (validateUserInput(etUserName, etPassword, etConfirmPassword)) {
+                    if (validateMatchPasswordAndConfirmPassword(
+                            etPassword.text.toString(),
+                            etConfirmPassword.text.toString()
+                        )
+                    ) {
+                        val user = User()
+                        user.isUserLogined = true
+                        user.userName = userName
+                        user.password = etPassword.text.toString()
 
-                    progressBarAction(View.VISIBLE)
-                    registrationViewModel.insertUserRecord(user)
-                    registrationViewModel.selectUserRecord(user)
+                        progressBarAction(View.VISIBLE)
+                        registrationViewModel.insertUserRecord(user)
+                        registrationViewModel.selectUserRecord(user)
 
-                    observeRegistrationViewModelLiveData()
+                        observeRegistrationViewModelLiveData()
+                    } else {
+                        showToastMessage("Password should not mismatch")
+                    }
+
                 } else {
-                    showToastMessage("Password should not mismatch")
+                    showToastMessage("Data should not be empty")
                 }
-
             } else {
-                showToastMessage("Data should not be empty")
+                PermissionUtil.requestMultiplePermission()
             }
 
         }

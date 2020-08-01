@@ -1,6 +1,11 @@
 package util
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.telephony.SmsManager
+import android.util.Log
+import fragments.HomeFragment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import repository.UserRepository
@@ -12,21 +17,40 @@ class CommonUtils {
 
     companion object {
 
-        fun uploadPhoneNUmber(context: Context, phoneNumber: String) {
-            val userRoomDatabase: UserRoomDatabase =
-                context.let {
-                    UserRoomDatabase.getDatabase(it)
-                }
-            val userDao: UserDao = userRoomDatabase.userDao()
-            val userRepository = UserRepository(userDao)
+        fun sendSms(context: Context, patient: Patient, userDao: UserDao) {
+            try {
+                Log.i("---->", "sendSms - ${patient.patientPhoneNumber}")
 
-            val patient = Patient()
-            patient.patientPhoneNumber = phoneNumber
-            GlobalScope.launch {
-                userRepository.insertPatientRecord(patient)
+                val pi: PendingIntent =
+                    PendingIntent.getActivity(
+                        context,
+                        0,
+                        Intent(context, HomeFragment::class.java),
+                        0
+                    )
+                val smsText: String = "Token - " + patient.patientId + " - Hello World"
+                val smsManager: SmsManager = SmsManager.getDefault()
+                smsManager.sendTextMessage(
+                    patient.patientPhoneNumber,
+                    null,
+                    smsText,
+                    pi,
+                    null
+                )
+
+                patient.isSmsSend = true
+
+                updateSMS(userDao, patient)
+
+            } catch (exp: Exception) {
+                exp.printStackTrace()
+                Log.i("----->", "exp : ${exp.printStackTrace()}")
             }
         }
 
+        private fun updateSMS(userDao: UserDao, patient: Patient) {
+            userDao.updatePatientSmsStatus(patient)
+        }
     }
 
 }
