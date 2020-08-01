@@ -15,7 +15,6 @@ import workmanger.UploadPhoneNumberWorker
 class IncomingCallReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent) {
         if (intent.extras != null) {
-
             val phoneNumber: String? = intent.extras!!.getString(Constants.INCOMING_NUMBER)
             if (phoneNumber != null) {
                 GlobalScope.launch(Dispatchers.IO) {

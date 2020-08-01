@@ -2,17 +2,13 @@ package fragments
 
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
-import android.telecom.TelecomManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -47,8 +43,6 @@ class LoginFragment : Fragment() {
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         PermissionUtil.handleMultipleRunTimePermission(this)
-
-        checkDefaultDialer()
 
         btnLogin.setOnClickListener {
             if ((requireActivity().checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
@@ -133,47 +127,5 @@ class LoginFragment : Fragment() {
 
     fun validatePasswordLength(password: String): Boolean {
         return password.length > 3
-    }
-
-    private fun checkDefaultDialer() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
-
-        val telecomManager =
-            activity!!.getSystemService(AppCompatActivity.TELECOM_SERVICE) as TelecomManager
-        val isAlreadyDefaultDialer = activity!!.packageName == telecomManager.defaultDialerPackage
-        if (isAlreadyDefaultDialer) return
-
-        val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER)
-            .putExtra(
-                TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME,
-                activity!!.packageName
-            )
-        startActivityForResult(intent, REQUEST_CODE_SET_DEFAULT_DIALER)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        checkDefaultDialer()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            REQUEST_CODE_SET_DEFAULT_DIALER -> checkSetDefaultDialerResult(resultCode)
-        }
-    }
-
-    private fun checkSetDefaultDialerResult(resultCode: Int) {
-        val message = when (resultCode) {
-            AppCompatActivity.RESULT_OK -> "User accepted request to become default dialer"
-            AppCompatActivity.RESULT_CANCELED -> "User declined request to become default dialer"
-            else -> "Unexpected result code $resultCode"
-        }
-
-        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
-    }
-
-    companion object {
-        private const val REQUEST_CODE_SET_DEFAULT_DIALER = 123
     }
 }
