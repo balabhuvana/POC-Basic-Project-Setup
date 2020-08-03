@@ -1,17 +1,15 @@
 package util
 
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.telephony.SmsManager
 import android.util.Log
 import fragments.HomeFragment
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import repository.UserRepository
 import room.Patient
 import room.UserDao
-import room.UserRoomDatabase
 
 class CommonUtils {
 
@@ -50,6 +48,28 @@ class CommonUtils {
 
         private fun updateSMS(userDao: UserDao, patient: Patient) {
             userDao.updatePatientSmsStatus(patient)
+        }
+
+        fun saveUserLoginDetailInSharedPreferences(activity: Activity, userName: String) {
+            val sharedPreferences: SharedPreferences? = activity.getPreferences(
+                Context.MODE_PRIVATE
+            )
+            val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
+            editor.putBoolean(Constants.IS_USER_LOGINED, true)
+            editor.putString(Constants.USER_NAME, userName)
+            editor.apply()
+        }
+
+        fun isUserLogined(activity: Activity): Boolean {
+            val sharedPref: SharedPreferences =
+                activity.getPreferences(Context.MODE_PRIVATE)
+            return sharedPref.getBoolean(Constants.IS_USER_LOGINED, false)
+        }
+
+        fun getUserName(activity: Activity): String? {
+            val sharedPref: SharedPreferences =
+                activity.getPreferences(Context.MODE_PRIVATE)
+            return sharedPref.getString(Constants.USER_NAME, "")
         }
     }
 

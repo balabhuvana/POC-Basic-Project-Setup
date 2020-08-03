@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_home.*
+import util.CommonUtils
 
 class HomeFragment : Fragment() {
 
@@ -26,6 +27,11 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        CommonUtils.saveUserLoginDetailInSharedPreferences(
+            this.activity!!,
+            args.userNameArgs.toString()
+        )
 
         setWelcomeMessage(args.userNameArgs)
 
