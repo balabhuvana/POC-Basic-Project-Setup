@@ -51,7 +51,7 @@ class SplashFragment : Fragment() {
     }
 
     private fun launchHomeFragment() {
-        val username: String = CommonUtils.getUserName(this.activity!!)!!
+        val username: String = CommonUtils.getUserName(this.context!!)!!
         val homeNavDirections: NavDirections =
             SplashFragmentDirections.actionSplashFragmentToHomeFragment2(username.toInt())
         val navController: NavController = findNavController()

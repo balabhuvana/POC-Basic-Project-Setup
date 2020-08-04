@@ -1,12 +1,15 @@
 package broadcast_receiver
 
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import androidx.work.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import util.CommonUtils
 import util.Constants
 import worker.GetPhoneNumberListWorker
 import worker.UploadPhoneNumberWorker
@@ -17,9 +20,13 @@ class IncomingCallReceiver : BroadcastReceiver() {
         if (intent.extras != null) {
             val phoneNumber: String? = intent.extras!!.getString(Constants.INCOMING_NUMBER)
             if (phoneNumber != null) {
-                GlobalScope.launch(Dispatchers.IO) {
-                    uploadPhoneNumber(phoneNumber = phoneNumber)
-                    getPatientList(phoneNumber)
+                if (CommonUtils.isUserLogined(context!!)) {
+                    GlobalScope.launch(Dispatchers.IO) {
+                        uploadPhoneNumber(phoneNumber = phoneNumber)
+                        getPatientList(phoneNumber)
+                    }
+                } else {
+                    Toast.makeText(context, "User is not logined", Toast.LENGTH_LONG).show()
                 }
             }
         }

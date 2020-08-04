@@ -1,12 +1,12 @@
 package util
 
-import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.telephony.SmsManager
 import android.util.Log
+import com.arunv.poc_basic_project_setup.R
 import fragments.HomeFragment
 import room.Patient
 import room.UserDao
@@ -50,8 +50,9 @@ class CommonUtils {
             userDao.updatePatientSmsStatus(patient)
         }
 
-        fun saveUserLoginDetailInSharedPreferences(activity: Activity, userName: String) {
-            val sharedPreferences: SharedPreferences? = activity.getPreferences(
+        fun saveUserLoginDetailInSharedPreferences(context: Context, userName: String) {
+            val sharedPreferences: SharedPreferences? = context.getSharedPreferences(
+                context.getString(R.string.user_login_data),
                 Context.MODE_PRIVATE
             )
             val editor: SharedPreferences.Editor = sharedPreferences!!.edit()
@@ -60,16 +61,31 @@ class CommonUtils {
             editor.apply()
         }
 
-        fun isUserLogined(activity: Activity): Boolean {
+        fun isUserLogined(context: Context): Boolean {
             val sharedPref: SharedPreferences =
-                activity.getPreferences(Context.MODE_PRIVATE)
+                context.getSharedPreferences(
+                    context.getString(R.string.user_login_data),
+                    Context.MODE_PRIVATE
+                )
             return sharedPref.getBoolean(Constants.IS_USER_LOGINED, false)
         }
 
-        fun getUserName(activity: Activity): String? {
+        fun getUserName(context: Context): String? {
             val sharedPref: SharedPreferences =
-                activity.getPreferences(Context.MODE_PRIVATE)
+                context.getSharedPreferences(
+                    context.getString(R.string.user_login_data),
+                    Context.MODE_PRIVATE
+                )
             return sharedPref.getString(Constants.USER_NAME, "")
+        }
+
+        fun clearUserData(context: Context) {
+            val sharedPref: SharedPreferences =
+                context.getSharedPreferences(
+                    context.getString(R.string.user_login_data),
+                    Context.MODE_PRIVATE
+                )
+            sharedPref.edit().clear().apply()
         }
     }
 

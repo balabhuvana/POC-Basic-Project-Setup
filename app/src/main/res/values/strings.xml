@@ -21,4 +21,6 @@
     <string name="action">Action</string>
     <string name="permission_granted">Permission Granted</string>
     <string name="permission_not_granted">Permission not granted</string>
+    <string name="user_login_data">user login data</string>
+    <string name="logout">Logout</string>
 </resources>

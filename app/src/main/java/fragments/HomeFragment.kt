@@ -38,6 +38,11 @@ class HomeFragment : Fragment() {
         btnStartNextScreen.setOnClickListener {
             launchSecondScreen()
         }
+
+        btnLogout.setOnClickListener {
+            CommonUtils.clearUserData(this.context!!)
+            launchLoginFragment()
+        }
     }
 
     private fun setWelcomeMessage(userName: Int) {
@@ -48,6 +53,10 @@ class HomeFragment : Fragment() {
     private fun launchSecondScreen() {
         val bundle: Bundle = bundleOf("amount" to " World ")
         findNavController().navigate(R.id.action_homeFragment_to_secondFragment, bundle)
+    }
+
+    private fun launchLoginFragment() {
+        findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
     }
 
 }
