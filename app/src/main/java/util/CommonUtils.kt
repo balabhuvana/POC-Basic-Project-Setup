@@ -9,13 +9,13 @@ import android.util.Log
 import com.arunv.poc_basic_project_setup.R
 import fragments.HomeFragment
 import room.Patient
-import room.UserDao
+import room.PatientDao
 
 class CommonUtils {
 
     companion object {
 
-        fun sendSms(context: Context, patient: Patient, userDao: UserDao) {
+        fun sendSms(context: Context, patient: Patient, patientDao: PatientDao) {
             try {
                 Log.i("---->", "sendSms - ${patient.patientPhoneNumber}")
 
@@ -38,7 +38,7 @@ class CommonUtils {
 
                 patient.isSmsSend = true
 
-                updateSMS(userDao, patient)
+                updateSMS(patientDao, patient)
 
             } catch (exp: Exception) {
                 exp.printStackTrace()
@@ -46,8 +46,8 @@ class CommonUtils {
             }
         }
 
-        private fun updateSMS(userDao: UserDao, patient: Patient) {
-            userDao.updatePatientSmsStatus(patient)
+        private fun updateSMS(patientDao: PatientDao, patient: Patient) {
+            patientDao.updatePatientSmsStatus(patient)
         }
 
         fun saveUserLoginDetailInSharedPreferences(context: Context, userName: String) {

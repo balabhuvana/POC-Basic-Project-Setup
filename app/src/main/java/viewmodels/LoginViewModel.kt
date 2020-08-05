@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import repository.UserRepository
+import room.PatientDao
 import room.User
 import room.UserDao
 import room.UserRoomDatabase
@@ -17,7 +18,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         val userRoomDatabase: UserRoomDatabase =
             application.let { UserRoomDatabase.getDatabase(it) }
         val userDao: UserDao = userRoomDatabase.userDao()
-        userRepository = UserRepository(userDao)
+        val patientDao: PatientDao = userRoomDatabase.patientDao()
+        userRepository = UserRepository(userDao, patientDao)
     }
 
     fun selectSpecificUser(userName: Int, userPassword: String) {

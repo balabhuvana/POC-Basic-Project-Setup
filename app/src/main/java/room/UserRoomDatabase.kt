@@ -13,6 +13,7 @@ import androidx.room.RoomDatabase
 abstract class UserRoomDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
+    abstract fun patientDao(): PatientDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the

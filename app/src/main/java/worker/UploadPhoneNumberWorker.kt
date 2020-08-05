@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import repository.UserRepository
 import room.Patient
+import room.PatientDao
 import room.UserDao
 import room.UserRoomDatabase
 import util.Constants
@@ -25,7 +26,8 @@ class UploadPhoneNumberWorker(context: Context, workerParameters: WorkerParamete
                 UserRoomDatabase.getDatabase(it)
             }
         val userDao: UserDao = userRoomDatabase.userDao()
-        val userRepository = UserRepository(userDao)
+        val patientDao: PatientDao = userRoomDatabase.patientDao()
+        val userRepository = UserRepository(userDao, patientDao)
 
         val patient = Patient()
         inputData.getString(Constants.PHONE_NUMBER)

@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import room.Patient
+import room.PatientDao
 import room.User
 import room.UserDao
 
-class UserRepository(private var userDao: UserDao) {
+class UserRepository(private var userDao: UserDao, private var patientDao: PatientDao) {
 
 
     private var userLiveData: LiveData<User>? = null
-    private var patientList: LiveData<List<Patient>>? = null
 
 
     fun insertUserRecord(user: User) {
@@ -22,7 +22,7 @@ class UserRepository(private var userDao: UserDao) {
 
     fun insertPatientRecord(patient: Patient) {
         GlobalScope.launch {
-            userDao.insertPatient(patient)
+            patientDao.insertPatient(patient)
         }
     }
 
@@ -38,10 +38,5 @@ class UserRepository(private var userDao: UserDao) {
     fun selectUserRecordWithPassword(userName: Int, userPassword: String): LiveData<User> {
         userLiveData = userDao.getUserRecordWithPassword(userName, userPassword)
         return userLiveData as LiveData<User>
-    }
-
-    fun getPatentList(): LiveData<List<Patient>> {
-        patientList = userDao.getPatientList()
-        return userDao.getPatientList()
     }
 }
