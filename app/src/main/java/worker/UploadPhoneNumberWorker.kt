@@ -2,6 +2,7 @@ package worker
 
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import repository.UserRepository
@@ -29,9 +30,13 @@ class UploadPhoneNumberWorker(context: Context, workerParameters: WorkerParamete
         val patientDao: PatientDao = userRoomDatabase.patientDao()
         val userRepository = UserRepository(userDao, patientDao)
 
-        val patient = Patient()
-        inputData.getString(Constants.PHONE_NUMBER)
-        patient.patientPhoneNumber = inputData.getString(Constants.PHONE_NUMBER).toString()
-        userRepository.insertPatientRecord(patient)
+        if (patientDao.getPatientRecord(inputData.getString(Constants.PHONE_NUMBER)!!) == null) {
+            val patient = Patient()
+            inputData.getString(Constants.PHONE_NUMBER)
+            patient.patientPhoneNumber = inputData.getString(Constants.PHONE_NUMBER).toString()
+            userRepository.insertPatientRecord(patient)
+        } else {
+            Log.i("-----> ", "UploadPhoneNumberWorker - patient record all ready available")
+        }
     }
 }

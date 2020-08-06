@@ -21,8 +21,7 @@ class IncomingCallReceiver : BroadcastReceiver() {
             if (phoneNumber != null) {
                 if (CommonUtils.isUserLogined(context!!)) {
                     GlobalScope.launch(Dispatchers.IO) {
-                        uploadPhoneNumber(phoneNumber = phoneNumber)
-                        getPatientList(phoneNumber)
+                        patientDataProcess(context, phoneNumber)
                     }
                 } else {
                     Toast.makeText(context, "User is not logined", Toast.LENGTH_LONG).show()
@@ -31,7 +30,7 @@ class IncomingCallReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun uploadPhoneNumber(phoneNumber: String) {
+    private fun uploadPhoneNumber(phoneNumber: String): OneTimeWorkRequest {
         val constraints: Constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
@@ -43,11 +42,10 @@ class IncomingCallReceiver : BroadcastReceiver() {
                 .setConstraints(constraints)
                 .setInputData(data)
                 .build()
-
-        WorkManager.getInstance().enqueue(uploadPhoneNumberWorker)
+        return uploadPhoneNumberWorker
     }
 
-    private fun getPatientList(phoneNumber: String) {
+    private fun getPatientList(phoneNumber: String): OneTimeWorkRequest {
         val constraints: Constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
@@ -60,6 +58,17 @@ class IncomingCallReceiver : BroadcastReceiver() {
                 .setInputData(data)
                 .build()
 
-        WorkManager.getInstance().enqueue(getPhoneNumberListWorker)
+        return getPhoneNumberListWorker
+    }
+
+    private fun patientDataProcess(context: Context?, phoneNumber: String) {
+
+        WorkManager.getInstance(context!!)
+            // Candidates to run in parallel
+            .beginWith(uploadPhoneNumber(phoneNumber))
+            // Dependent work (only runs after all previous work in chain)
+            .then(getPatientList(phoneNumber))
+            // Don't forget to enqueue()
+            .enqueue();
     }
 }

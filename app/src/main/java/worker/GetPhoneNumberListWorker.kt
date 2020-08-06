@@ -1,6 +1,7 @@
 package worker
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import room.Patient
@@ -19,11 +20,17 @@ class GetPhoneNumberListWorker(context: Context, workerParameters: WorkerParamet
             }
         val patientDao: PatientDao = userRoomDatabase.patientDao()
 
+        Log.i("-----> ", "Patient list : ${patientDao.getPatientListNoLiveData().size}")
+
+        val phoneNumber: String? = inputData.getString(Constants.PHONE_NUMBER)
+
         val patient: Patient =
-            patientDao.getPatientRecord(inputData.getString(Constants.PHONE_NUMBER)!!);
-        CommonUtils.sendSms(applicationContext, patient, patientDao)
+            patientDao.getPatientRecord(phoneNumber!!)
+        if (!patient.isSmsSend) {
+            CommonUtils.sendSms(applicationContext, patient, patientDao)
+        } else {
+            Log.i("-----> ", "Sms all ready send to this number $phoneNumber")
+        }
         return Result.success()
     }
-
-
 }
