@@ -2,6 +2,7 @@ package fragments
 
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,23 +12,31 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import application.MyApplication
 import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_login.*
 import room.User
 import util.PermissionUtil
 import util.PermissionUtil.Companion.requestMultiplePermission
 import viewmodels.LoginViewModel
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
 class LoginFragment : Fragment() {
 
-    private lateinit var loginViewModel: LoginViewModel
+    @Inject
+    lateinit var loginViewModel: LoginViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (activity?.applicationContext as MyApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +49,7 @@ class LoginFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        // loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         PermissionUtil.handleMultipleRunTimePermission(this)
 

@@ -2,6 +2,7 @@ package fragments
 
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,22 +12,30 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import application.MyApplication
 import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_registration.*
 import room.User
 import util.PermissionUtil
 import viewmodels.RegistrationViewModel
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
  */
 class RegistrationFragment : Fragment() {
 
-    private lateinit var registrationViewModel: RegistrationViewModel
+    @Inject
+    lateinit var registrationViewModel: RegistrationViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (activity?.applicationContext as MyApplication).appComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +48,7 @@ class RegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        registrationViewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
+        //registrationViewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
         btnRegister.setOnClickListener {
 
             PermissionUtil.handleMultipleRunTimePermission(this)

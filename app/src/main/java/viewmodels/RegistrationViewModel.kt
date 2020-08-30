@@ -9,8 +9,9 @@ import room.PatientDao
 import room.User
 import room.UserDao
 import room.UserRoomDatabase
+import javax.inject.Inject
 
-class RegistrationViewModel(application: Application) :
+class RegistrationViewModel @Inject constructor(application: Application) :
     AndroidViewModel(application) {
 
     private var userRepository: UserRepository? = null
