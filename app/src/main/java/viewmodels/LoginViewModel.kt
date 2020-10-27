@@ -4,27 +4,18 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import repository.UserRepository
-import room.PatientDao
 import room.User
-import room.UserDao
-import room.UserRoomDatabase
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(application: Application) : AndroidViewModel(application) {
+class LoginViewModel @Inject constructor(
+    application: Application,
+    var userRepository: UserRepository
+) : AndroidViewModel(application) {
 
-    private var userRepository: UserRepository? = null
     private var userLiveData: LiveData<User>? = null
 
-    init {
-        val userRoomDatabase: UserRoomDatabase =
-            application.let { UserRoomDatabase.getDatabase(it) }
-        val userDao: UserDao = userRoomDatabase.userDao()
-        val patientDao: PatientDao = userRoomDatabase.patientDao()
-        userRepository = UserRepository(userDao, patientDao)
-    }
-
     fun selectSpecificUser(userName: Int, userPassword: String) {
-        userLiveData = userRepository?.selectUserRecordWithPassword(userName, userPassword)
+        userLiveData = userRepository.selectUserRecordWithPassword(userName, userPassword)
     }
 
     fun observeSpecificUser(): LiveData<User>? {

@@ -7,8 +7,12 @@ import room.Patient
 import room.PatientDao
 import room.User
 import room.UserDao
+import javax.inject.Inject
 
-class UserRepository(private var userDao: UserDao, private var patientDao: PatientDao) {
+class UserRepository @Inject constructor(
+    private var userDao: UserDao,
+    private var patientDao: PatientDao
+) {
 
 
     private var userLiveData: LiveData<User>? = null

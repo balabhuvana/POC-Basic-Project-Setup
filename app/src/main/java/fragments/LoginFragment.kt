@@ -15,9 +15,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import application.MyApplication
 import com.arunv.poc_basic_project_setup.R
+import dagger.DaggerAppComponent
 import kotlinx.android.synthetic.main.fragment_login.*
+import module.AppModule
+import module.RoomModule
 import room.User
 import util.PermissionUtil
 import util.PermissionUtil.Companion.requestMultiplePermission
@@ -35,7 +37,11 @@ class LoginFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        (activity?.applicationContext as MyApplication).appComponent.inject(this)
+        DaggerAppComponent.builder()
+            .appModule(AppModule(activity?.application))
+            .roomModule(RoomModule(activity?.application))
+            .build()
+            .inject(this)
     }
 
     override fun onCreateView(
@@ -48,8 +54,6 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        // loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         PermissionUtil.handleMultipleRunTimePermission(this)
 

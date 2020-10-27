@@ -3,17 +3,16 @@ package dagger
 import android.app.Application
 import fragments.LoginFragment
 import fragments.RegistrationFragment
+import module.AppModule
+import module.RoomModule
+import room.PatientDao
+import room.UserDao
+import room.UserRoomDatabase
+import javax.inject.Singleton
 
-@Component
+@Singleton
+@Component(dependencies = [], modules = [AppModule::class, RoomModule::class])
 interface AppComponent {
-
-    @Component.Factory
-    interface Factory {
-        // With @BindsInstance, the Context passed in will be available in the graph
-        fun create(@BindsInstance application: Application): AppComponent
-    }
-
-    // Classes that can be injected by this Component
-    fun inject(registrationFragment: RegistrationFragment)
-    fun inject(loginFragment: LoginFragment)
+    fun inject(loginFragment: LoginFragment?)
+    fun inject(registrationFragment: RegistrationFragment?)
 }
