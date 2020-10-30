@@ -29,7 +29,7 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         CommonUtils.saveUserLoginDetailInSharedPreferences(
-            this.activity!!,
+            this.requireActivity(),
             args.userNameArgs.toString()
         )
 
@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
         }
 
         btnLogout.setOnClickListener {
-            CommonUtils.clearUserData(this.context!!)
+            CommonUtils.clearUserData(this.requireContext())
             launchLoginFragment()
         }
     }
