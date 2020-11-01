@@ -37,8 +37,8 @@ class RegistrationFragment : Fragment() {
         super.onAttach(context)
 
         DaggerAppComponent.builder()
-            .appModule(AppModule(activity?.application))
-            .roomModule(RoomModule(activity?.application))
+            .appModule(AppModule(activity!!.application))
+            .roomModule(RoomModule(activity!!.application))
             .build()
             .inject(this)
     }

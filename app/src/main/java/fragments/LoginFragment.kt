@@ -19,11 +19,13 @@ import com.arunv.poc_basic_project_setup.R
 import dagger.DaggerAppComponent
 import kotlinx.android.synthetic.main.fragment_login.*
 import module.AppModule
+import module.NetworkModule
 import module.RoomModule
 import room.User
 import util.PermissionUtil
 import util.PermissionUtil.Companion.requestMultiplePermission
 import viewmodels.LoginViewModel
+import viewmodels.SampleNetworkCallViewModel
 import javax.inject.Inject
 
 /**
@@ -34,12 +36,18 @@ class LoginFragment : Fragment() {
     @Inject
     lateinit var loginViewModel: LoginViewModel
 
+    @Inject
+    lateinit var sampleNetworkCallViewModel: SampleNetworkCallViewModel
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
         DaggerAppComponent.builder()
-            .appModule(AppModule(activity?.application))
-            .roomModule(RoomModule(activity?.application))
+            .appModule(AppModule(activity!!.application))
+            .roomModule(RoomModule(activity!!.application))
+            .networkModule(
+                NetworkModule()
+            )
             .build()
             .inject(this)
     }
@@ -80,6 +88,10 @@ class LoginFragment : Fragment() {
 
         btnRegister.setOnClickListener {
             launchRegistrationScreen()
+        }
+
+        btnNetWorkCall.setOnClickListener {
+            sampleNetworkCallViewModel.fetchUserFromNetwork()
         }
     }
 

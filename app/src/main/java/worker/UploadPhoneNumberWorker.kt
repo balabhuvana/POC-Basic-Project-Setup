@@ -5,7 +5,10 @@ import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import module.NetworkModule
 import repository.UserRepository
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import room.Patient
 import room.PatientDao
 import room.UserDao
@@ -28,7 +31,14 @@ class UploadPhoneNumberWorker(context: Context, workerParameters: WorkerParamete
             }
         val userDao: UserDao = userRoomDatabase.userDao()
         val patientDao: PatientDao = userRoomDatabase.patientDao()
-        val userRepository = UserRepository(userDao, patientDao)
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://reqres.in/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val userApiWebService = NetworkModule().getApiInterface(retrofit)
+        val userRepository = UserRepository(userDao, patientDao, userApiWebService)
 
         if (patientDao.getPatientRecord(inputData.getString(Constants.PHONE_NUMBER)!!) == null) {
             val patient = Patient()

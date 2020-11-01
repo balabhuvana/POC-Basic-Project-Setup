@@ -1,17 +1,14 @@
 package dagger
 
-import android.app.Application
 import fragments.LoginFragment
 import fragments.RegistrationFragment
 import module.AppModule
+import module.NetworkModule
 import module.RoomModule
-import room.PatientDao
-import room.UserDao
-import room.UserRoomDatabase
 import javax.inject.Singleton
 
 @Singleton
-@Component(dependencies = [], modules = [AppModule::class, RoomModule::class])
+@Component(dependencies = [], modules = [AppModule::class, RoomModule::class, NetworkModule::class])
 interface AppComponent {
     fun inject(loginFragment: LoginFragment?)
     fun inject(registrationFragment: RegistrationFragment?)
