@@ -18,8 +18,8 @@ import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
 import dagger.DaggerAppComponent
 import kotlinx.android.synthetic.main.fragment_registration.*
-import module.AppModule
-import module.RoomModule
+import dagger.AppModule
+import dagger.RoomModule
 import room.User
 import util.PermissionUtil
 import viewmodels.RegistrationViewModel

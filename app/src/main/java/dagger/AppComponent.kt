@@ -2,9 +2,6 @@ package dagger
 
 import fragments.LoginFragment
 import fragments.RegistrationFragment
-import module.AppModule
-import module.NetworkModule
-import module.RoomModule
 import javax.inject.Singleton
 
 @Singleton

@@ -1,8 +1,5 @@
-package module
+package dagger
 
-import android.app.Application
-import dagger.Module
-import dagger.Provides
 import network.UserApiWebService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

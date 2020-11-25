@@ -1,4 +1,4 @@
-package module
+package dagger
 
 import android.app.Application
 import dagger.Module

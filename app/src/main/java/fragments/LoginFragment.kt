@@ -18,9 +18,9 @@ import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
 import dagger.DaggerAppComponent
 import kotlinx.android.synthetic.main.fragment_login.*
-import module.AppModule
-import module.NetworkModule
-import module.RoomModule
+import dagger.AppModule
+import dagger.NetworkModule
+import dagger.RoomModule
 import room.User
 import util.PermissionUtil
 import util.PermissionUtil.Companion.requestMultiplePermission

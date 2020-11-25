@@ -9,16 +9,18 @@ import room.PatientDao
 import room.UserRoomDatabase
 import util.CommonUtils
 import util.Constants
+import javax.inject.Inject
 
 class GetPhoneNumberListWorker(context: Context, workerParameters: WorkerParameters) :
     CoroutineWorker(context, workerParameters) {
-    override suspend fun doWork(): Result {
 
-        val userRoomDatabase: UserRoomDatabase =
-            applicationContext.let {
-                UserRoomDatabase.getDatabase(it)
-            }
-        val patientDao: PatientDao = userRoomDatabase.patientDao()
+    @Inject
+    lateinit var userRoomDatabase: UserRoomDatabase
+
+    @Inject
+    lateinit var patientDao: PatientDao
+
+    override suspend fun doWork(): Result {
 
         Log.i("-----> ", "Patient list : ${patientDao.getPatientListNoLiveData().size}")
 

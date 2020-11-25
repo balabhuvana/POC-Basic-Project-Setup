@@ -37,12 +37,10 @@ class IncomingCallReceiver : BroadcastReceiver() {
 
         val data: Data = workDataOf(Constants.PHONE_NUMBER to phoneNumber)
 
-        val uploadPhoneNumberWorker: OneTimeWorkRequest =
-            OneTimeWorkRequestBuilder<UploadPhoneNumberWorker>()
-                .setConstraints(constraints)
-                .setInputData(data)
-                .build()
-        return uploadPhoneNumberWorker
+        return OneTimeWorkRequestBuilder<UploadPhoneNumberWorker>()
+            .setConstraints(constraints)
+            .setInputData(data)
+            .build()
     }
 
     private fun getPatientList(phoneNumber: String): OneTimeWorkRequest {
@@ -52,13 +50,10 @@ class IncomingCallReceiver : BroadcastReceiver() {
 
         val data: Data = workDataOf(Constants.PHONE_NUMBER to phoneNumber)
 
-        val getPhoneNumberListWorker: OneTimeWorkRequest =
-            OneTimeWorkRequestBuilder<GetPhoneNumberListWorker>()
-                .setConstraints(constraints)
-                .setInputData(data)
-                .build()
-
-        return getPhoneNumberListWorker
+        return OneTimeWorkRequestBuilder<GetPhoneNumberListWorker>()
+            .setConstraints(constraints)
+            .setInputData(data)
+            .build()
     }
 
     private fun patientDataProcess(context: Context?, phoneNumber: String) {

@@ -1,9 +1,7 @@
-package module
+package dagger
 
 import android.app.Application
 import androidx.room.Room
-import dagger.Module
-import dagger.Provides
 import room.PatientDao
 import room.UserDao
 import room.UserRoomDatabase
