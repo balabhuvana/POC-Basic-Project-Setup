@@ -8,13 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_login.*
 
 
-/**
- * A simple [Fragment] subclass.
- */
 class LoginFragment : Fragment() {
 
     override fun onCreateView(
@@ -32,6 +32,10 @@ class LoginFragment : Fragment() {
 
         next_button.setOnClickListener {
             tapOnNext()
+        }
+
+        tv_take_to_registration_screen.setOnClickListener {
+            takeToRegistrationScreen()
         }
     }
 
@@ -54,6 +58,14 @@ class LoginFragment : Fragment() {
             }
             false
         }
+    }
+
+    private fun takeToRegistrationScreen() {
+        val registrationDirection: NavDirections =
+            LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
+
+        val navigationController: NavController = findNavController()
+        navigationController.navigate(registrationDirection)
     }
 
 }

@@ -29,4 +29,5 @@
     <string name="shr_button_next">Next</string>
     <string name="shr_button_cancel">Cancel</string>
     <string name="shr_error_password">Password must contain at least 8 characters.</string>
+    <string name="new_to_app">New to App? Register here</string>
 </resources>

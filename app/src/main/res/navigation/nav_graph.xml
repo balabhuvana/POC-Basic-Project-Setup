@@ -3,21 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/librarySplash">
+    app:startDestination="@id/splashFragment">
 
     <fragment
-        android:id="@+id/librarySplash"
+        android:id="@+id/splashFragment"
         android:name="fragments.SplashFragment"
-        android:label="SplashLibraryFragment"
+        android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action
-            android:id="@+id/action_librarySplash_to_loginFragment"
-            app:destination="@id/loginLibraryFragment" />
+            android:id="@+id/action_Splash_to_LoginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
+
     <fragment
-        android:id="@+id/loginLibraryFragment"
+        android:id="@+id/loginFragment"
         android:name="fragments.LoginFragment"
-        android:label="LoginLibraryFragment"
-        tools:layout="@layout/fragment_login" />
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="fragments.RegistrationFragment"
+        android:label="RegistrationFragment"
+        tools:layout="@layout/fragment_registration" />
 
 </navigation>

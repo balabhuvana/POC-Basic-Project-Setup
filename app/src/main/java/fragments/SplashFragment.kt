@@ -34,7 +34,7 @@ class SplashFragment : Fragment() {
         showOrHideProgressBar(View.VISIBLE)
         Handler().postDelayed({
             val navDirections: NavDirections =
-                SplashFragmentDirections.actionLibrarySplashToLoginFragment()
+                SplashFragmentDirections.actionSplashToLoginFragment()
             val navController: NavController = findNavController()
             navController.navigate(navDirections)
             showOrHideProgressBar(View.GONE)

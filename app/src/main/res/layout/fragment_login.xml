@@ -82,5 +82,16 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/tv_take_to_registration_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="132dp"
+            android:gravity="center"
+            android:text="@string/new_to_app"
+            android:textColor="@color/colorPrimary" />
+
     </LinearLayout>
 </ScrollView>
