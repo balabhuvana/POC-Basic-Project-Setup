@@ -2,17 +2,16 @@ package fragments
 
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_login.*
+import util.CommonUtils
 
 
 class LoginFragment : Fragment() {
@@ -34,27 +33,23 @@ class LoginFragment : Fragment() {
             tapOnNext()
         }
 
-        tv_take_to_registration_screen.setOnClickListener {
+        tv_new_to_app.setOnClickListener {
             takeToRegistrationScreen()
         }
     }
 
-    private fun isPasswordValid(@Nullable text: Editable?): Boolean {
-        return text != null && text.length >= 8
-    }
-
     private fun tapOnNext() {
-        if (!isPasswordValid(password_edit_text.text)) {
-            password_edit_text.error = getString(R.string.shr_error_password)
+        if (!CommonUtils.isPasswordValid(et_password_login.text)) {
+            et_password_login.error = getString(R.string.error_password)
         } else {
-            password_edit_text.error = null
+            et_password_login.error = null
         }
     }
 
     private fun passwordEditTextOperation() {
-        password_edit_text.setOnKeyListener { _, _, _ ->
-            if (isPasswordValid(password_edit_text.text)) {
-                password_edit_text.error = null //Clear the error
+        et_password_login.setOnKeyListener { _, _, _ ->
+            if (CommonUtils.isPasswordValid(et_password_login.text)) {
+                et_password_login.error = null //Clear the error
             }
             false
         }

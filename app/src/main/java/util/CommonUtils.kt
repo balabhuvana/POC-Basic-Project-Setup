@@ -2,6 +2,8 @@ package util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.text.Editable
+import androidx.annotation.Nullable
 import com.arunv.poc_basic_project_setup.R
 import room.Patient
 import room.PatientDao
@@ -81,6 +83,10 @@ class CommonUtils {
                     Context.MODE_PRIVATE
                 )
             sharedPref.edit().clear().apply()
+        }
+
+        fun isPasswordValid(@Nullable text: Editable?): Boolean {
+            return text != null && text.length >= 8
         }
     }
 
