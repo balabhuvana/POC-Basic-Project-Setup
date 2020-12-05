@@ -64,6 +64,8 @@ dependencies {
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
 
     // Testing Navigation
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
     // MVVM View Model

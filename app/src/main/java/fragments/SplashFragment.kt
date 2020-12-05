@@ -12,11 +12,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_splash.*
-import util.CommonUtils
 
-/**
- * A simple [Fragment] subclass.
- */
 class SplashFragment : Fragment() {
 
     override fun onCreateView(
@@ -27,14 +23,10 @@ class SplashFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_splash, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        if (validateUserIsLogined()) {
-            launchHomeFragment()
-        } else {
-            launchLoginFragment()
-        }
+        launchLoginFragment()
     }
 
     private fun launchLoginFragment() {
@@ -42,7 +34,7 @@ class SplashFragment : Fragment() {
         showOrHideProgressBar(View.VISIBLE)
         Handler().postDelayed({
             val navDirections: NavDirections =
-                SplashFragmentDirections.actionSplashFragmentToLoginFragment()
+                SplashFragmentDirections.actionLibrarySplashToLoginFragment()
             val navController: NavController = findNavController()
             navController.navigate(navDirections)
             showOrHideProgressBar(View.GONE)
@@ -50,20 +42,8 @@ class SplashFragment : Fragment() {
 
     }
 
-    private fun launchHomeFragment() {
-        val username: String = CommonUtils.getUserName(this.requireContext())!!
-        val homeNavDirections: NavDirections =
-            SplashFragmentDirections.actionSplashFragmentToHomeFragment2(username.toInt())
-        val navController: NavController = findNavController()
-        navController.navigate(homeNavDirections)
-    }
-
     private fun showOrHideProgressBar(showOrHide: Int) {
         splashProgressBar.visibility = showOrHide
-    }
-
-    private fun validateUserIsLogined(): Boolean {
-        return CommonUtils.isUserLogined(this.activity!!)
     }
 
 }

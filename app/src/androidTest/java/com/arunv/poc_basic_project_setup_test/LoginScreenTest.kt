@@ -10,7 +10,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arunv.poc_basic_project_setup.R
-import com.arunv.poc_basic_project_setup.SingleActivity
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.runner.RunWith

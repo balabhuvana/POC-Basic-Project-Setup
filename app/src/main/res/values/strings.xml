@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">POC-Basic-Project-Setup</string>
+    <string name="app_name">Louis Marry</string>
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -23,4 +23,10 @@
     <string name="permission_not_granted">Permission not granted</string>
     <string name="user_login_data">user login data</string>
     <string name="logout">Logout</string>
+
+    <string name="shr_hint_username">Username</string>
+    <string name="shr_hint_password">Password</string>
+    <string name="shr_button_next">Next</string>
+    <string name="shr_button_cancel">Cancel</string>
+    <string name="shr_error_password">Password must contain at least 8 characters.</string>
 </resources>

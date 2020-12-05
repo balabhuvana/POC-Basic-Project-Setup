@@ -1,6 +1,5 @@
 package com.arunv.poc_basic_project_setup
 
-import fragments.RegistrationFragment
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before

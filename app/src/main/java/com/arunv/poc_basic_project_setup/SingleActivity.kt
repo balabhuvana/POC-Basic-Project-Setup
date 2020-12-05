@@ -7,6 +7,6 @@ class SingleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_single)
+        setContentView(R.layout.single_activity)
     }
 }

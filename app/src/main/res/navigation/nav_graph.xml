@@ -3,82 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/librarySplash">
 
     <fragment
-        android:id="@+id/splashFragment"
+        android:id="@+id/librarySplash"
         android:name="fragments.SplashFragment"
-        android:label="SplashFragment"
+        android:label="SplashLibraryFragment"
         tools:layout="@layout/fragment_splash">
         <action
-            android:id="@+id/action_splashFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_splashFragment_to_homeFragment2"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true"/>
+            android:id="@+id/action_librarySplash_to_loginFragment"
+            app:destination="@id/loginLibraryFragment" />
     </fragment>
     <fragment
-        android:id="@+id/loginFragment"
+        android:id="@+id/loginLibraryFragment"
         android:name="fragments.LoginFragment"
-        android:label="LoginFragment"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_loginFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true">
-            <argument
-                android:name="userNameArgs"
-                android:defaultValue="1"
-                app:argType="integer" />
-        </action>
-    </fragment>
-    <fragment
-        android:id="@+id/registrationFragment"
-        android:name="fragments.RegistrationFragment"
-        android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration">
-        <action
-            android:id="@+id/action_registrationFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true">
-            <argument
-                android:name="userNameArgs"
-                android:defaultValue="1"
-                app:argType="integer" />
-        </action>
-    </fragment>
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home">
-
-        <argument
-            android:name="userNameArgs"
-            android:defaultValue="0"
-            app:argType="integer" />
-        <action
-            android:id="@+id/action_homeFragment_to_secondFragment"
-            app:destination="@id/secondFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true"/>
-
-    </fragment>
-    <fragment
-        android:id="@+id/secondFragment"
-        android:name="fragments.SecondFragment"
-        android:label="fragment_second"
-        tools:layout="@layout/fragment_second" />
-
+        android:label="LoginLibraryFragment"
+        tools:layout="@layout/fragment_login" />
 
 </navigation>

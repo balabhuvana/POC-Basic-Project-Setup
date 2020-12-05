@@ -1,13 +1,8 @@
 package util
 
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.telephony.SmsManager
-import android.util.Log
 import com.arunv.poc_basic_project_setup.R
-import fragments.HomeFragment
 import room.Patient
 import room.PatientDao
 
@@ -15,7 +10,7 @@ class CommonUtils {
 
     companion object {
 
-        fun sendSms(context: Context, patient: Patient, patientDao: PatientDao) {
+        /*fun sendSms(context: Context, patient: Patient, patientDao: PatientDao) {
             try {
                 Log.i("---->", "sendSms - ${patient.patientPhoneNumber}")
 
@@ -44,7 +39,7 @@ class CommonUtils {
                 exp.printStackTrace()
                 Log.i("----->", "exp : ${exp.printStackTrace()}")
             }
-        }
+        }*/
 
         private fun updateSMS(patientDao: PatientDao, patient: Patient) {
             patientDao.updatePatientSmsStatus(patient)
