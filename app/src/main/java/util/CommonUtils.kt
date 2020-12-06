@@ -12,6 +12,8 @@ class CommonUtils {
 
     companion object {
 
+        var emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+
         /*fun sendSms(context: Context, patient: Patient, patientDao: PatientDao) {
             try {
                 Log.i("---->", "sendSms - ${patient.patientPhoneNumber}")
@@ -87,6 +89,10 @@ class CommonUtils {
 
         fun isUsernameOrPasswordValid(@Nullable text: Editable?, length: Int): Boolean {
             return text != null && text.length >= length
+        }
+
+        fun isValidEmailAddress(@Nullable text: Editable?): Boolean {
+            return text.toString().trim().matches(emailPattern.toRegex())
         }
     }
 

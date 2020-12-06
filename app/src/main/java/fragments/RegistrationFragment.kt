@@ -12,7 +12,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_registration.*
 import util.CommonUtils
 import util.PermissionUtil
@@ -35,7 +34,7 @@ class RegistrationFragment : Fragment() {
         // Configure the run time permission handle setting
         PermissionUtil.handleMultipleRunTimePermission(this)
 
-        passwordEditTextOperation()
+        this.handleEditTextOperation()
 
         tv_all_ready_registered.setOnClickListener {
             takeToLoginScreen()
@@ -54,6 +53,30 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun tapOnNext() {
+        handleUserNameValidation()
+        handleEmailValidation()
+        handlePasswordValidation()
+    }
+
+    private fun handleUserNameValidation() {
+        if (!CommonUtils.isUsernameOrPasswordValid(et_full_name.text, 6)) {
+            et_full_name.error = getString(R.string.error_username)
+        } else {
+            et_full_name.error = null
+        }
+    }
+
+    private fun handleEmailValidation() {
+        if (CommonUtils
+                .isValidEmailAddress(et_email.text)
+        ) {
+            et_email.error = null
+        } else {
+            et_email.error = getString(R.string.error_email)
+        }
+    }
+
+    private fun handlePasswordValidation() {
         if (!CommonUtils.isUsernameOrPasswordValid(et_password_registration.text, 8)) {
             et_password_registration.error = getString(R.string.error_password)
         } else {
@@ -69,10 +92,25 @@ class RegistrationFragment : Fragment() {
         navigationController.navigate(registrationDirection)
     }
 
-    private fun passwordEditTextOperation() {
+    private fun handleEditTextOperation() {
+
+        et_full_name.setOnKeyListener { _, _, _ ->
+            if (CommonUtils.isUsernameOrPasswordValid(et_full_name.text, 6)) {
+                et_full_name.error = null //Clear the error
+            }
+            false
+        }
+
+        et_email.setOnKeyListener { _, _, _ ->
+            if (CommonUtils.isUsernameOrPasswordValid(et_email.text, 6)) {
+                //et_full_name.error = null //Clear the error
+            }
+            false
+        }
+
         et_password_registration.setOnKeyListener { _, _, _ ->
             if (CommonUtils.isUsernameOrPasswordValid(et_password_registration.text, 8)) {
-                et_password_login.error = null //Clear the error
+                et_password_registration.error = null //Clear the error
             }
             false
         }
