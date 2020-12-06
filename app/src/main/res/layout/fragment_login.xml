@@ -39,6 +39,7 @@
             android:hint="@string/hint_username">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_username_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"

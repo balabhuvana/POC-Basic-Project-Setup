@@ -32,7 +32,7 @@ class LoginFragment : Fragment() {
         // Configure the run time permission handle setting
         PermissionUtil.handleMultipleRunTimePermission(this)
 
-        passwordEditTextOperation()
+        handleEditTextOperation()
 
         next_button.setOnClickListener {
             if ((requireActivity().checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
@@ -51,19 +51,42 @@ class LoginFragment : Fragment() {
     }
 
     private fun tapOnNext() {
-        if (!CommonUtils.isPasswordValid(et_password_login.text)) {
-            et_password_login.error = getString(R.string.error_password)
-        } else {
-            et_password_login.error = null
-        }
+        handleUserNameValidation()
+        handlePasswordValidation()
     }
 
-    private fun passwordEditTextOperation() {
+    private fun handleEditTextOperation() {
+
+        et_username_login.setOnKeyListener { _, _, _ ->
+            if (CommonUtils.isUsernameOrPasswordValid(et_username_login.text, 6)) {
+                et_username_login.error = null //Clear the error
+            }
+            false
+        }
+
         et_password_login.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isPasswordValid(et_password_login.text)) {
+            if (CommonUtils.isUsernameOrPasswordValid(et_password_login.text, 8)) {
                 et_password_login.error = null //Clear the error
             }
             false
+        }
+
+    }
+
+
+    private fun handleUserNameValidation() {
+        if (!CommonUtils.isUsernameOrPasswordValid(et_username_login.text, 6)) {
+            et_username_login.error = getString(R.string.error_password)
+        } else {
+            et_username_login.error = null
+        }
+    }
+
+    private fun handlePasswordValidation() {
+        if (!CommonUtils.isUsernameOrPasswordValid(et_password_login.text, 8)) {
+            et_password_login.error = getString(R.string.error_password)
+        } else {
+            et_password_login.error = null
         }
     }
 

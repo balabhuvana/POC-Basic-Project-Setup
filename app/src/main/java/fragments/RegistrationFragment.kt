@@ -54,7 +54,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun tapOnNext() {
-        if (!CommonUtils.isPasswordValid(et_password_registration.text)) {
+        if (!CommonUtils.isUsernameOrPasswordValid(et_password_registration.text, 8)) {
             et_password_registration.error = getString(R.string.error_password)
         } else {
             et_password_registration.error = null
@@ -71,7 +71,7 @@ class RegistrationFragment : Fragment() {
 
     private fun passwordEditTextOperation() {
         et_password_registration.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isPasswordValid(et_password_registration.text)) {
+            if (CommonUtils.isUsernameOrPasswordValid(et_password_registration.text, 8)) {
                 et_password_login.error = null //Clear the error
             }
             false

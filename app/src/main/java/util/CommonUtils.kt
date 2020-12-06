@@ -85,8 +85,8 @@ class CommonUtils {
             sharedPref.edit().clear().apply()
         }
 
-        fun isPasswordValid(@Nullable text: Editable?): Boolean {
-            return text != null && text.length >= 8
+        fun isUsernameOrPasswordValid(@Nullable text: Editable?, length: Int): Boolean {
+            return text != null && text.length >= length
         }
     }
 
