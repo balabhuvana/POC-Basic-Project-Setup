@@ -1,6 +1,8 @@
 package fragments
 
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_registration.*
 import util.CommonUtils
+import util.PermissionUtil
 
 
 class RegistrationFragment : Fragment() {
@@ -29,6 +32,9 @@ class RegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Configure the run time permission handle setting
+        PermissionUtil.handleMultipleRunTimePermission(this)
+
         passwordEditTextOperation()
 
         tv_all_ready_registered.setOnClickListener {
@@ -36,7 +42,14 @@ class RegistrationFragment : Fragment() {
         }
 
         next_button_registration.setOnClickListener {
-            tapOnNext()
+            if ((requireActivity().checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
+                && (requireActivity().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED)
+                && (requireActivity().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)
+            ) {
+                tapOnNext()
+            } else {
+                PermissionUtil.requestMultiplePermission()
+            }
         }
     }
 
