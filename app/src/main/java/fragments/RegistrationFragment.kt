@@ -103,7 +103,7 @@ class RegistrationFragment : Fragment() {
 
         et_email.setOnKeyListener { _, _, _ ->
             if (CommonUtils.isUsernameOrPasswordValid(et_email.text, 6)) {
-                //et_full_name.error = null //Clear the error
+                et_email.error = null //Clear the error
             }
             false
         }
