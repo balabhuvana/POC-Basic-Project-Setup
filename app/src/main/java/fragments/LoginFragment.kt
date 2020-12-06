@@ -4,6 +4,7 @@ package fragments
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,14 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
+import dagger.LoginNetworkModule
 import kotlinx.android.synthetic.main.fragment_login.*
+import model.LoginOrRegistrationRequestModel
+import model.LoginOrRegistrationResponseModel
+import network.LoginApiWebService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import util.CommonUtils
 import util.PermissionUtil
 
@@ -96,6 +104,40 @@ class LoginFragment : Fragment() {
 
         val navigationController: NavController = findNavController()
         navigationController.navigate(registrationDirection)
+    }
+
+    private fun loginNetworkCall() {
+
+        val registrationRequestModel = LoginOrRegistrationRequestModel()
+        registrationRequestModel.email = "eve.holt@reqres.in"
+        registrationRequestModel.password = "pistol"
+
+        val loginApiWebService: LoginApiWebService? = LoginNetworkModule().getAPIService();
+
+        val callUserModelForPostRequest =
+            loginApiWebService?.loginUser(registrationRequestModel)
+
+        callUserModelForPostRequest?.enqueue(object : Callback<LoginOrRegistrationResponseModel> {
+            override fun onFailure(call: Call<LoginOrRegistrationResponseModel>, t: Throwable) {
+                Log.i("---> ", " onFailure " + t.localizedMessage)
+            }
+
+            override fun onResponse(
+                call: Call<LoginOrRegistrationResponseModel>,
+                response: Response<LoginOrRegistrationResponseModel>
+            ) {
+                if (response.code() == 200) {
+                    val registrationResponseModel: LoginOrRegistrationResponseModel? =
+                        response.body()
+                    Log.i("---> ", " onResponse " + registrationResponseModel?.token)
+                } else if (response.code() == 400) {
+                    val registrationResponseModel: LoginOrRegistrationResponseModel? =
+                        response.body()
+                    Log.i("---> ", " onResponse " + registrationResponseModel?.error)
+                }
+            }
+        })
+
     }
 
 }
