@@ -35,4 +35,7 @@
     <string name="error_email">It should be valid email address</string>
     <string name="new_to_app">New to App? Register here</string>
     <string name="all_ready_registered">Already Registered? Login here</string>
+    <string name="temp_user_name">arunkumarv</string>
+    <string name="temp_email">eve.holt@reqres.in</string>
+    <string name="temp_password">pistol</string>
 </resources>

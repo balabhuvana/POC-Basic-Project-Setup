@@ -8,24 +8,26 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
-import dagger.LoginNetworkModule
 import kotlinx.android.synthetic.main.fragment_registration.*
 import model.LoginOrRegistrationRequestModel
 import model.LoginOrRegistrationResponseModel
-import network.LoginApiWebService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import util.CommonUtils
 import util.PermissionUtil
+import viewmodels.RegistrationViewModel
 
 
 class RegistrationFragment : Fragment() {
+
+    private var isValidInput: Boolean = false
+    private lateinit var registrationViewModel: RegistrationViewModel;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +40,8 @@ class RegistrationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        registrationViewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
 
         // Configure the run time permission handle setting
         PermissionUtil.handleMultipleRunTimePermission(this)
@@ -64,45 +68,20 @@ class RegistrationFragment : Fragment() {
         handleUserNameValidation()
         handleEmailValidation()
         handlePasswordValidation()
-    }
-
-    private fun registrationNetworkCall() {
-
-        val registrationRequestModel = LoginOrRegistrationRequestModel()
-        registrationRequestModel.email = "eve.holt@reqres.in"
-        registrationRequestModel.password = "pistol"
-
-        val loginApiWebService: LoginApiWebService? = LoginNetworkModule().getAPIService();
-
-        val callUserModelForPostRequest =
-            loginApiWebService?.registerUser(registrationRequestModel)
-
-        callUserModelForPostRequest?.enqueue(object : Callback<LoginOrRegistrationResponseModel> {
-            override fun onFailure(call: Call<LoginOrRegistrationResponseModel>, t: Throwable) {
-                Log.i("---> ", " onFailure " + t.localizedMessage)
-            }
-
-            override fun onResponse(
-                call: Call<LoginOrRegistrationResponseModel>,
-                response: Response<LoginOrRegistrationResponseModel>
-            ) {
-                if (response.code() == 200) {
-                    val registrationResponseModel: LoginOrRegistrationResponseModel? = response.body()
-                    Log.i("---> ", " onResponse " + registrationResponseModel?.id)
-                } else if (response.code() == 400) {
-                    val registrationResponseModel: LoginOrRegistrationResponseModel? = response.body()
-                    Log.i("---> ", " onResponse " + registrationResponseModel?.error)
-                }
-            }
-        })
-
+        if (isValidInput) {
+            handleRegisterViewModel()
+        } else {
+            Toast.makeText(context, "Please enter valid user data", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun handleUserNameValidation() {
         if (!CommonUtils.isUsernameOrPasswordValid(et_full_name.text, 6)) {
             et_full_name.error = getString(R.string.error_username)
+            isValidInput = false
         } else {
             et_full_name.error = null
+            isValidInput = true
         }
     }
 
@@ -111,16 +90,20 @@ class RegistrationFragment : Fragment() {
                 .isValidEmailAddress(et_email.text)
         ) {
             et_email.error = null
+            isValidInput = true
         } else {
             et_email.error = getString(R.string.error_email)
+            isValidInput = false
         }
     }
 
     private fun handlePasswordValidation() {
-        if (!CommonUtils.isUsernameOrPasswordValid(et_password_registration.text, 8)) {
+        if (!CommonUtils.isUsernameOrPasswordValid(et_password_registration.text, 4)) {
             et_password_registration.error = getString(R.string.error_password)
+            isValidInput = false
         } else {
             et_password_registration.error = null
+            isValidInput = true
         }
     }
 
@@ -154,5 +137,20 @@ class RegistrationFragment : Fragment() {
             }
             false
         }
+    }
+
+    private fun handleRegisterViewModel() {
+        val registrationRequestModel = LoginOrRegistrationRequestModel()
+        registrationRequestModel.email = et_email.text.toString().trim()
+        registrationRequestModel.password = et_password_registration.text.toString().trim()
+        registrationViewModel.registerNewUser(registrationRequestModel)
+        observeUserModelPostResponseFromNetwork(registrationViewModel)
+    }
+
+    private fun observeUserModelPostResponseFromNetwork(registrationViewModel: RegistrationViewModel) {
+        registrationViewModel.fetchRegisterNewUserViewModelObservable()?.observe(viewLifecycleOwner,
+            Observer<LoginOrRegistrationResponseModel> {
+                Log.i("----> ", "RF : ${it.id}")
+            })
     }
 }

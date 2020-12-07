@@ -43,7 +43,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:text="@string/temp_email" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -58,7 +59,8 @@
                 android:id="@+id/et_password_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:text="@string/temp_password" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
