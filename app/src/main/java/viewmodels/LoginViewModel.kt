@@ -3,23 +3,32 @@ package viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import repository.UserRepository
-import room.User
+import dagger.LoginNetworkModule
+import model.LoginOrRegistrationRequestModel
+import model.LoginOrRegistrationResponseModel
+import network.LoginApiWebService
+import repository.LoginRepository
 import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
-    application: Application,
-    var userRepository: UserRepository
+    application: Application
 ) : AndroidViewModel(application) {
 
-    private var userLiveData: LiveData<User>? = null
+    private var loginRepository: LoginRepository
+    private var loginResponseModel: LiveData<LoginOrRegistrationResponseModel>? = null
 
-    fun selectSpecificUser(userName: Int, userPassword: String) {
-        userLiveData = userRepository.selectUserRecordWithPassword(userName, userPassword)
+    init {
+        val loginApiWebService: LoginApiWebService? = LoginNetworkModule().getAPIService();
+        loginRepository = LoginRepository(loginApiWebService!!)
     }
 
-    fun observeSpecificUser(): LiveData<User>? {
-        return userLiveData
+    fun loginNewUser(loginRequestModel: LoginOrRegistrationRequestModel) {
+        loginResponseModel =
+            loginRepository.loginUser(loginRequestModel)
+    }
+
+    fun loginViewModelObservable(): LiveData<LoginOrRegistrationResponseModel>? {
+        return loginResponseModel
     }
 
 }

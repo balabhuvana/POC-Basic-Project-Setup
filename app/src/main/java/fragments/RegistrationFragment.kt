@@ -27,7 +27,7 @@ import viewmodels.RegistrationViewModel
 class RegistrationFragment : Fragment() {
 
     private var isValidInput: Boolean = false
-    private lateinit var registrationViewModel: RegistrationViewModel;
+    private lateinit var registrationViewModel: RegistrationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -132,7 +132,7 @@ class RegistrationFragment : Fragment() {
         }
 
         et_password_registration.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isUsernameOrPasswordValid(et_password_registration.text, 8)) {
+            if (CommonUtils.isUsernameOrPasswordValid(et_password_registration.text, 6)) {
                 et_password_registration.error = null //Clear the error
             }
             false

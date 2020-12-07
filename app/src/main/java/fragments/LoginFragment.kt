@@ -8,23 +8,25 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
-import dagger.LoginNetworkModule
 import kotlinx.android.synthetic.main.fragment_login.*
 import model.LoginOrRegistrationRequestModel
 import model.LoginOrRegistrationResponseModel
-import network.LoginApiWebService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import util.CommonUtils
 import util.PermissionUtil
+import viewmodels.LoginViewModel
 
 class LoginFragment : Fragment() {
+
+    private var isValidInput: Boolean = false
+    private lateinit var loginViewModel: LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +38,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         // Configure the run time permission handle setting
         PermissionUtil.handleMultipleRunTimePermission(this)
@@ -61,6 +65,11 @@ class LoginFragment : Fragment() {
     private fun tapOnNext() {
         handleUserNameValidation()
         handlePasswordValidation()
+        if (isValidInput) {
+            handleRegisterViewModel()
+        } else {
+            Toast.makeText(context, "Please enter valid user data", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun handleEditTextOperation() {
@@ -85,15 +94,19 @@ class LoginFragment : Fragment() {
     private fun handleUserNameValidation() {
         if (!CommonUtils.isUsernameOrPasswordValid(et_username_login.text, 6)) {
             et_username_login.error = getString(R.string.error_password)
+            isValidInput = false
         } else {
+            isValidInput = true
             et_username_login.error = null
         }
     }
 
     private fun handlePasswordValidation() {
-        if (!CommonUtils.isUsernameOrPasswordValid(et_password_login.text, 8)) {
+        if (!CommonUtils.isUsernameOrPasswordValid(et_password_login.text, 6)) {
             et_password_login.error = getString(R.string.error_password)
+            isValidInput = false
         } else {
+            isValidInput = true
             et_password_login.error = null
         }
     }
@@ -106,38 +119,19 @@ class LoginFragment : Fragment() {
         navigationController.navigate(registrationDirection)
     }
 
-    private fun loginNetworkCall() {
-
+    private fun handleRegisterViewModel() {
         val registrationRequestModel = LoginOrRegistrationRequestModel()
-        registrationRequestModel.email = "eve.holt@reqres.in"
-        registrationRequestModel.password = "pistol"
+        registrationRequestModel.email = et_username_login.text.toString().trim()
+        registrationRequestModel.password = et_password_login.text.toString().trim()
+        loginViewModel.loginNewUser(registrationRequestModel)
+        observeUserModelPostResponseFromNetwork(loginViewModel)
+    }
 
-        val loginApiWebService: LoginApiWebService? = LoginNetworkModule().getAPIService();
-
-        val callUserModelForPostRequest =
-            loginApiWebService?.loginUser(registrationRequestModel)
-
-        callUserModelForPostRequest?.enqueue(object : Callback<LoginOrRegistrationResponseModel> {
-            override fun onFailure(call: Call<LoginOrRegistrationResponseModel>, t: Throwable) {
-                Log.i("---> ", " onFailure " + t.localizedMessage)
-            }
-
-            override fun onResponse(
-                call: Call<LoginOrRegistrationResponseModel>,
-                response: Response<LoginOrRegistrationResponseModel>
-            ) {
-                if (response.code() == 200) {
-                    val registrationResponseModel: LoginOrRegistrationResponseModel? =
-                        response.body()
-                    Log.i("---> ", " onResponse " + registrationResponseModel?.token)
-                } else if (response.code() == 400) {
-                    val registrationResponseModel: LoginOrRegistrationResponseModel? =
-                        response.body()
-                    Log.i("---> ", " onResponse " + registrationResponseModel?.error)
-                }
-            }
-        })
-
+    private fun observeUserModelPostResponseFromNetwork(loginViewModel: LoginViewModel) {
+        loginViewModel.loginViewModelObservable()?.observe(viewLifecycleOwner,
+            Observer<LoginOrRegistrationResponseModel> {
+                Log.i("----> ", "LF : ${it.token}")
+            })
     }
 
 }
