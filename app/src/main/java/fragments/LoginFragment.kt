@@ -19,6 +19,7 @@ import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_login.*
 import model.LoginOrRegistrationRequestModel
 import model.LoginOrRegistrationResponseModel
+import model.LoginRequestModelMaria
 import util.CommonUtils
 import util.PermissionUtil
 import viewmodels.LoginViewModel
@@ -51,7 +52,8 @@ class LoginFragment : Fragment() {
                 && (requireActivity().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED)
                 && (requireActivity().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)
             ) {
-                tapOnNext()
+                //tapOnNext()
+                loginMariaServer()
             } else {
                 PermissionUtil.requestMultiplePermission()
             }
@@ -132,6 +134,14 @@ class LoginFragment : Fragment() {
             Observer<LoginOrRegistrationResponseModel> {
                 Log.i("----> ", "LF : ${it.token}")
             })
+    }
+
+    private fun loginMariaServer() {
+        val loginRequestModelMaria = LoginRequestModelMaria()
+        loginRequestModelMaria.userName = "bala"
+        loginRequestModelMaria.userPassword = "asdf"
+        loginViewModel.loginNewUserMariaServer(loginRequestModelMaria)
+
     }
 
 }

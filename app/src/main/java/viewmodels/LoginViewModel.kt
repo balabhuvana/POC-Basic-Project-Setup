@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import dagger.LoginNetworkModule
 import model.LoginOrRegistrationRequestModel
 import model.LoginOrRegistrationResponseModel
+import model.LoginRequestModelMaria
 import network.LoginApiWebService
 import repository.LoginRepository
 import javax.inject.Inject
@@ -29,6 +30,10 @@ class LoginViewModel @Inject constructor(
 
     fun loginViewModelObservable(): LiveData<LoginOrRegistrationResponseModel>? {
         return loginResponseModel
+    }
+
+    fun loginNewUserMariaServer(loginRequestModel: LoginRequestModelMaria) {
+        loginRepository.loginUserMariaServer(loginRequestModel)
     }
 
 }

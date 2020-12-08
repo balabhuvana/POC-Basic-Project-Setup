@@ -2,7 +2,7 @@ package model
 
 import com.google.gson.annotations.SerializedName
 
-class LoginOrRegistrationRequestModel() {
+class LoginOrRegistrationRequestModel {
 
     @SerializedName("email")
     var email: String? = null

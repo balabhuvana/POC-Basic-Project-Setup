@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import model.LoginOrRegistrationRequestModel
 import model.LoginOrRegistrationResponseModel
+import model.LoginRequestModelMaria
+import model.LoginResponseModelMaria
 import network.LoginApiWebService
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,5 +65,22 @@ class LoginRepository(private var loginApiWebService: LoginApiWebService) {
                 }
             })
         return registrationResponseViewModel
+    }
+
+    fun loginUserMariaServer(loginRequestModelMaria: LoginRequestModelMaria) {
+        loginApiWebService.loginUserMariaServer(loginRequestModelMaria)
+            .enqueue(object : Callback<LoginResponseModelMaria> {
+                override fun onFailure(call: Call<LoginResponseModelMaria>, t: Throwable) {
+                    Log.i("----> ", "onFailure")
+                }
+
+                override fun onResponse(
+                    call: Call<LoginResponseModelMaria>,
+                    response: Response<LoginResponseModelMaria>
+                ) {
+                    val loginResponseModelMaria: LoginResponseModelMaria? = response.body()
+                    Log.i("----> ", "onResponse : $loginResponseModelMaria")
+                }
+            })
     }
 }
