@@ -11,8 +11,9 @@ import network.LoginApiWebService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class LoginRepository(private var loginApiWebService: LoginApiWebService) {
+class LoginRepository @Inject constructor(private var loginApiWebService: LoginApiWebService) {
 
     fun loginUser(loginOrRegistrationRequestModel: LoginOrRegistrationRequestModel): LiveData<LoginOrRegistrationResponseModel> {
         val loginResponseViewModel = MutableLiveData<LoginOrRegistrationResponseModel>()
