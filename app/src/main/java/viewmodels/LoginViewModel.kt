@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class LoginViewModel @Inject constructor(
     application: Application,
-    var loginRepository: LoginRepository
+    private var loginRepository: LoginRepository
 ) : AndroidViewModel(application) {
 
     private var loginResponseModel: LiveData<LoginOrRegistrationResponseModel>? = null
