@@ -1,5 +1,6 @@
 package dagger
 
+import network.LoginApiWebService
 import network.UserApiWebService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -13,6 +14,14 @@ class NetworkModule() {
     fun getApiInterface(retroFit: Retrofit): UserApiWebService {
         retrofit.baseUrl()
         return retroFit.create(UserApiWebService::class.java)
+    }
+
+
+    @Singleton
+    @Provides
+    fun getLoginApiInterface(retroFit: Retrofit): LoginApiWebService {
+        retrofit.baseUrl()
+        return retroFit.create(LoginApiWebService::class.java)
     }
 
     @get:Provides
