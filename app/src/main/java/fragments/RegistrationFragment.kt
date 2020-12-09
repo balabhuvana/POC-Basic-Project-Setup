@@ -2,6 +2,7 @@ package fragments
 
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -16,18 +17,36 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
+import dagger.AppModule
+import dagger.DaggerAppComponent
+import dagger.NetworkModule
 import kotlinx.android.synthetic.main.fragment_registration.*
 import model.LoginOrRegistrationRequestModel
 import model.LoginOrRegistrationResponseModel
 import util.CommonUtils
 import util.PermissionUtil
 import viewmodels.RegistrationViewModel
+import javax.inject.Inject
 
 
 class RegistrationFragment : Fragment() {
 
     private var isValidInput: Boolean = false
-    private lateinit var registrationViewModel: RegistrationViewModel
+
+    @Inject
+    lateinit var registrationViewModel: RegistrationViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        DaggerAppComponent.builder()
+            .appModule(AppModule(activity!!.application))
+            .networkModule(
+                NetworkModule()
+            )
+            .build()
+            .inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +60,6 @@ class RegistrationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        registrationViewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
 
         // Configure the run time permission handle setting
         PermissionUtil.handleMultipleRunTimePermission(this)

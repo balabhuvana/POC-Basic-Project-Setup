@@ -3,23 +3,17 @@ package viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import dagger.LoginNetworkModule
 import model.LoginOrRegistrationRequestModel
 import model.LoginOrRegistrationResponseModel
-import network.LoginApiWebService
 import repository.LoginRepository
+import javax.inject.Inject
 
-class RegistrationViewModel(
-    application: Application
+class RegistrationViewModel @Inject constructor(
+    application: Application,
+    private var loginRepository: LoginRepository
 ) : AndroidViewModel(application) {
 
-    private var loginRepository: LoginRepository
     private var loginOrRegistrationResponseModel: LiveData<LoginOrRegistrationResponseModel>? = null
-
-    init {
-        val loginApiWebService: LoginApiWebService? = LoginNetworkModule().getAPIService();
-        loginRepository = LoginRepository(loginApiWebService!!)
-    }
 
     fun registerNewUser(loginOrRegistrationRequestModel: LoginOrRegistrationRequestModel) {
         loginOrRegistrationResponseModel =
