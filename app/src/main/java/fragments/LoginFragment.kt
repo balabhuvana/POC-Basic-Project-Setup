@@ -135,6 +135,14 @@ class LoginFragment : Fragment() {
         navigationController.navigate(registrationDirection)
     }
 
+    private fun takeToHomeScreen() {
+        val registrationDirection: NavDirections =
+            LoginFragmentDirections.actionLoginFragmentToHomeScreen()
+
+        val navigationController: NavController = findNavController()
+        navigationController.navigate(registrationDirection)
+    }
+
     private fun handleLoginViewModel() {
         val loginRequestModelMaria = LoginRequestModelMaria()
         loginRequestModelMaria.userName = "bala"
@@ -151,6 +159,7 @@ class LoginFragment : Fragment() {
                         this.context!!,
                         it.message
                     )
+                    takeToHomeScreen()
                 } else {
                     CommonUtils.showToastMessage(
                         this.context!!,

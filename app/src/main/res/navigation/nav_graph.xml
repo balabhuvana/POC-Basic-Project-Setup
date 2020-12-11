@@ -25,6 +25,11 @@
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeScreen"
+            app:destination="@id/homeScreen"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -36,5 +41,10 @@
             android:id="@+id/action_registrationFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/homeScreen"
+        android:name="fragments.HomeScreen"
+        android:label="HomeScreen"
+        tools:layout="@layout/fragment_home_screen" />
 
 </navigation>
