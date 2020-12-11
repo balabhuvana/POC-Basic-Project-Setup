@@ -5,7 +5,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +19,6 @@ import dagger.AppModule
 import dagger.DaggerAppComponent
 import dagger.NetworkModule
 import kotlinx.android.synthetic.main.fragment_login.*
-import model.LoginOrRegistrationRequestModel
-import model.LoginOrRegistrationResponseModel
 import model.LoginRequestModelMaria
 import util.CommonUtils
 import util.PermissionUtil
@@ -68,8 +65,9 @@ class LoginFragment : Fragment() {
                 && (requireActivity().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED)
                 && (requireActivity().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)
             ) {
-                //tapOnNext()
-                loginMariaServer()
+//                tapOnNext()
+//                loginGetRequestMariaServer()
+                handleLoginViewModel()
             } else {
                 PermissionUtil.requestMultiplePermission()
             }
@@ -84,7 +82,7 @@ class LoginFragment : Fragment() {
         handleUserNameValidation()
         handlePasswordValidation()
         if (isValidInput) {
-            handleRegisterViewModel()
+            handleLoginViewModel()
         } else {
             Toast.makeText(context, "Please enter valid user data", Toast.LENGTH_LONG).show()
         }
@@ -137,27 +135,29 @@ class LoginFragment : Fragment() {
         navigationController.navigate(registrationDirection)
     }
 
-    private fun handleRegisterViewModel() {
-        val registrationRequestModel = LoginOrRegistrationRequestModel()
-        registrationRequestModel.email = et_username_login.text.toString().trim()
-        registrationRequestModel.password = et_password_login.text.toString().trim()
-        loginViewModel.loginNewUser(registrationRequestModel)
-        observeUserModelPostResponseFromNetwork(loginViewModel)
-    }
-
-    private fun observeUserModelPostResponseFromNetwork(loginViewModel: LoginViewModel) {
-        loginViewModel.loginViewModelObservable()?.observe(viewLifecycleOwner,
-            Observer<LoginOrRegistrationResponseModel> {
-                Log.i("----> ", "LF : ${it.token}")
-            })
-    }
-
-    private fun loginMariaServer() {
+    private fun handleLoginViewModel() {
         val loginRequestModelMaria = LoginRequestModelMaria()
         loginRequestModelMaria.userName = "bala"
-        loginRequestModelMaria.userPassword = "asdf"
+        loginRequestModelMaria.userPassword = "lkjh"
         loginViewModel.loginNewUserMariaServer(loginRequestModelMaria)
+        observeLoginResponseViewModelMariaServerObservable(loginViewModel)
+    }
 
+    private fun observeLoginResponseViewModelMariaServerObservable(loginViewModel: LoginViewModel) {
+        loginViewModel.loginResponseViewModelMariaServerObservable()?.observe(viewLifecycleOwner,
+            Observer {
+                if (it.success!!) {
+                    CommonUtils.showToastMessage(
+                        this.context!!,
+                        it.message
+                    )
+                } else {
+                    CommonUtils.showToastMessage(
+                        this.context!!,
+                        getString(R.string.error_please_try_again)
+                    )
+                }
+            })
     }
 
 }

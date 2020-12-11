@@ -3,6 +3,7 @@ package util
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.Editable
+import android.widget.Toast
 import androidx.annotation.Nullable
 import com.arunv.poc_basic_project_setup.R
 import room.Patient
@@ -93,6 +94,10 @@ class CommonUtils {
 
         fun isValidEmailAddress(@Nullable text: Editable?): Boolean {
             return text.toString().trim().matches(emailPattern.toRegex())
+        }
+
+        fun showToastMessage(context: Context, message: String?) {
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
     }
 

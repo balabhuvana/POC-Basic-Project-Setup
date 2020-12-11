@@ -16,8 +16,8 @@ class RegistrationViewModel @Inject constructor(
     private var loginOrRegistrationResponseModel: LiveData<LoginOrRegistrationResponseModel>? = null
 
     fun registerNewUser(loginOrRegistrationRequestModel: LoginOrRegistrationRequestModel) {
-        loginOrRegistrationResponseModel =
-            loginRepository.registerNewUser(loginOrRegistrationRequestModel)
+//        loginOrRegistrationResponseModel =
+//            loginRepository.registerNewUser(loginOrRegistrationRequestModel)
     }
 
     fun fetchRegisterNewUserViewModelObservable(): LiveData<LoginOrRegistrationResponseModel>? {

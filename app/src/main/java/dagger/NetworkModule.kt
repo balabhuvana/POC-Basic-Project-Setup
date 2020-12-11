@@ -9,6 +9,12 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule() {
+
+    private val BASE_URL = "https://reqres.in/"
+
+    private val LOGIN_URL_MARIA_SERVER =
+        "https://62jnymp7n4.execute-api.us-east-2.amazonaws.com/Prod/api/CustomerLogin/"
+
     @Singleton
     @Provides
     fun getApiInterface(retroFit: Retrofit): UserApiWebService {
@@ -27,7 +33,7 @@ class NetworkModule() {
     @get:Provides
     val retrofit: Retrofit
         get() = Retrofit.Builder()
-            .baseUrl("https://reqres.in/")
+            .baseUrl(LOGIN_URL_MARIA_SERVER)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

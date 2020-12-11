@@ -2,10 +2,9 @@ package viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import model.LoginOrRegistrationRequestModel
-import model.LoginOrRegistrationResponseModel
+import androidx.lifecycle.MutableLiveData
 import model.LoginRequestModelMaria
+import model.LoginResponseModelRootMaria
 import repository.LoginRepository
 import javax.inject.Inject
 
@@ -14,19 +13,13 @@ class LoginViewModel @Inject constructor(
     private var loginRepository: LoginRepository
 ) : AndroidViewModel(application) {
 
-    private var loginResponseModel: LiveData<LoginOrRegistrationResponseModel>? = null
-
-    fun loginNewUser(loginRequestModel: LoginOrRegistrationRequestModel) {
-        loginResponseModel =
-            loginRepository.loginUser(loginRequestModel)
-    }
-
-    fun loginViewModelObservable(): LiveData<LoginOrRegistrationResponseModel>? {
-        return loginResponseModel
-    }
+    var loginResponseViewModel: MutableLiveData<LoginResponseModelRootMaria>? = null
 
     fun loginNewUserMariaServer(loginRequestModel: LoginRequestModelMaria) {
-        loginRepository.loginUserMariaServer(loginRequestModel)
+        loginResponseViewModel = loginRepository.loginPostUserMariaServer(loginRequestModel)
     }
 
+    fun loginResponseViewModelMariaServerObservable(): MutableLiveData<LoginResponseModelRootMaria>? {
+        return loginResponseViewModel
+    }
 }

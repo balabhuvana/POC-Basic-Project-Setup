@@ -38,4 +38,6 @@
     <string name="temp_user_name">arunkumarv</string>
     <string name="temp_email">eve.holt@reqres.in</string>
     <string name="temp_password">pistol</string>
+
+    <string name="error_please_try_again">Something wrong please try again</string>
 </resources>
