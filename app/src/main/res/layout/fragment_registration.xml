@@ -39,7 +39,7 @@
             android:hint="@string/hint_username">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_full_name"
+                android:id="@+id/et_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -76,6 +76,21 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:text="@string/temp_password" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="@string/hint_phone_number">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLines="1"
+                android:text="@string/temp_phone_number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout

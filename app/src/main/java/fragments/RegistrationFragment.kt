@@ -5,14 +5,12 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
@@ -21,8 +19,7 @@ import dagger.AppModule
 import dagger.DaggerAppComponent
 import dagger.NetworkModule
 import kotlinx.android.synthetic.main.fragment_registration.*
-import model.LoginOrRegistrationRequestModel
-import model.LoginOrRegistrationResponseModel
+import model.RegisterRequestModel
 import util.CommonUtils
 import util.PermissionUtil
 import viewmodels.RegistrationViewModel
@@ -94,11 +91,11 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun handleUserNameValidation() {
-        if (!CommonUtils.isUsernameOrPasswordValid(et_full_name.text, 6)) {
-            et_full_name.error = getString(R.string.error_username)
+        if (!CommonUtils.isUsernameOrPasswordValid(et_user_name.text, 6)) {
+            et_user_name.error = getString(R.string.error_username)
             isValidInput = false
         } else {
-            et_full_name.error = null
+            et_user_name.error = null
             isValidInput = true
         }
     }
@@ -135,9 +132,9 @@ class RegistrationFragment : Fragment() {
 
     private fun handleEditTextOperation() {
 
-        et_full_name.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isUsernameOrPasswordValid(et_full_name.text, 6)) {
-                et_full_name.error = null //Clear the error
+        et_user_name.setOnKeyListener { _, _, _ ->
+            if (CommonUtils.isUsernameOrPasswordValid(et_user_name.text, 6)) {
+                et_user_name.error = null //Clear the error
             }
             false
         }
@@ -158,17 +155,42 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun handleRegisterViewModel() {
-        val registrationRequestModel = LoginOrRegistrationRequestModel()
-        registrationRequestModel.email = et_email.text.toString().trim()
+        val registrationRequestModel = RegisterRequestModel()
+
+        registrationRequestModel.username = et_user_name.text.toString().trim()
+        registrationRequestModel.emailId = et_email.text.toString().trim()
         registrationRequestModel.password = et_password_registration.text.toString().trim()
-        registrationViewModel.registerNewUser(registrationRequestModel)
-        observeUserModelPostResponseFromNetwork(registrationViewModel)
+        registrationRequestModel.phoneNumber = et_phone_number.text.toString().toLong()
+        registrationRequestModel.firstName="apple"
+        registrationRequestModel.lastName="apple"
+        registrationRequestModel.countryCode="342"
+        registrationViewModel.registerNewUserViewModel(registrationRequestModel)
+
+        observeRegisterResponse(registrationViewModel)
     }
 
-    private fun observeUserModelPostResponseFromNetwork(registrationViewModel: RegistrationViewModel) {
-        registrationViewModel.fetchRegisterNewUserViewModelObservable()?.observe(viewLifecycleOwner,
-            Observer<LoginOrRegistrationResponseModel> {
-                Log.i("----> ", "RF : ${it.id}")
+    private fun observeRegisterResponse(registrationViewModel: RegistrationViewModel) {
+        registrationViewModel.registerResponseViewModelObservable()
+            ?.observe(viewLifecycleOwner, Observer {
+                if (it.success!!) {
+                    CommonUtils.showToastMessage(
+                        this.context!!,
+                        it.message
+                    )
+                    takeToHomeScreen()
+                } else {
+                    CommonUtils.showToastMessage(
+                        this.context!!,
+                        getString(R.string.error_please_try_again)
+                    )
+                }
             })
+    }
+
+    private fun takeToHomeScreen() {
+        val homeScreenDirection: NavDirections =
+            RegistrationFragmentDirections.actionRegistrationFragmentToHomeScreen()
+        val navigationController: NavController = findNavController()
+        navigationController.navigate(homeScreenDirection)
     }
 }

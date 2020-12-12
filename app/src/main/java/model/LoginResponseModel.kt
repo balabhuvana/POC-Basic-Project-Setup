@@ -3,7 +3,7 @@ package model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class LoginResponseModelMaria {
+class LoginResponseModel {
     @SerializedName("id")
     @Expose
     var id: Int? = null

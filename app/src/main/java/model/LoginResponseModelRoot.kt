@@ -3,10 +3,10 @@ package model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class LoginResponseModelRootMaria {
+class LoginResponseModelRoot {
     @SerializedName("data")
     @Expose
-    var data: LoginResponseModelMaria? = null
+    var data: LoginResponseModel? = null
 
     @SerializedName("success")
     @Expose

@@ -2,25 +2,25 @@ package viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import model.LoginOrRegistrationRequestModel
-import model.LoginOrRegistrationResponseModel
-import repository.LoginRepository
+import androidx.lifecycle.MutableLiveData
+import model.RegisterRequestModel
+import model.RegisterResponseModel
+import repository.RegistrationRepository
 import javax.inject.Inject
 
 class RegistrationViewModel @Inject constructor(
     application: Application,
-    private var loginRepository: LoginRepository
+    private var registrationRepository: RegistrationRepository
 ) : AndroidViewModel(application) {
 
-    private var loginOrRegistrationResponseModel: LiveData<LoginOrRegistrationResponseModel>? = null
+    private var registerResponseModel: MutableLiveData<RegisterResponseModel>? = null
 
-    fun registerNewUser(loginOrRegistrationRequestModel: LoginOrRegistrationRequestModel) {
-//        loginOrRegistrationResponseModel =
-//            loginRepository.registerNewUser(loginOrRegistrationRequestModel)
+    fun registerNewUserViewModel(registerRequestModel: RegisterRequestModel) {
+        registerResponseModel =
+            registrationRepository.registerNewUserRepo(registerRequestModel)
     }
 
-    fun fetchRegisterNewUserViewModelObservable(): LiveData<LoginOrRegistrationResponseModel>? {
-        return loginOrRegistrationResponseModel
+    fun registerResponseViewModelObservable(): MutableLiveData<RegisterResponseModel>? {
+        return registerResponseModel
     }
 }

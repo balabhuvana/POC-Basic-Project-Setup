@@ -19,7 +19,7 @@ import dagger.AppModule
 import dagger.DaggerAppComponent
 import dagger.NetworkModule
 import kotlinx.android.synthetic.main.fragment_login.*
-import model.LoginRequestModelMaria
+import model.LoginRequestModel
 import util.CommonUtils
 import util.PermissionUtil
 import viewmodels.LoginViewModel
@@ -144,15 +144,15 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleLoginViewModel() {
-        val loginRequestModelMaria = LoginRequestModelMaria()
-        loginRequestModelMaria.userName = "bala"
-        loginRequestModelMaria.userPassword = "lkjh"
-        loginViewModel.loginNewUserMariaServer(loginRequestModelMaria)
-        observeLoginResponseViewModelMariaServerObservable(loginViewModel)
+        val loginRequestModelMaria = LoginRequestModel()
+        loginRequestModelMaria.userName = et_username_login.text.toString().trim()
+        loginRequestModelMaria.userPassword = et_password_login.text.toString().trim()
+        loginViewModel.loginUserViewModel(loginRequestModelMaria)
+        observeLoginResponse(loginViewModel)
     }
 
-    private fun observeLoginResponseViewModelMariaServerObservable(loginViewModel: LoginViewModel) {
-        loginViewModel.loginResponseViewModelMariaServerObservable()?.observe(viewLifecycleOwner,
+    private fun observeLoginResponse(loginViewModel: LoginViewModel) {
+        loginViewModel.loginResponseViewModelObservable()?.observe(viewLifecycleOwner,
             Observer {
                 if (it.success!!) {
                     CommonUtils.showToastMessage(

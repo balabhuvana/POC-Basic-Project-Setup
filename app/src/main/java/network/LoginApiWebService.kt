@@ -1,7 +1,9 @@
 package network
 
-import model.LoginRequestModelMaria
-import model.LoginResponseModelRootMaria
+import model.LoginRequestModel
+import model.LoginResponseModelRoot
+import model.RegisterRequestModel
+import model.RegisterResponseModel
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -9,6 +11,9 @@ import retrofit2.http.POST
 interface LoginApiWebService {
 
     @POST("Login")
-    fun loginUserMariaServer(@Body loginRequestModelMaria: LoginRequestModelMaria): Call<LoginResponseModelRootMaria>
+    fun loginUser(@Body loginRequestModel: LoginRequestModel): Call<LoginResponseModelRoot>
+
+    @POST("Register")
+    fun registerUser(@Body registerRequestModel: RegisterRequestModel): Call<RegisterResponseModel>
 
 }

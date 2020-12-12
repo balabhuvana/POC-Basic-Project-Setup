@@ -3,8 +3,8 @@ package repository
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import model.LoginRequestModelMaria
-import model.LoginResponseModelRootMaria
+import model.LoginRequestModel
+import model.LoginResponseModelRoot
 import network.LoginApiWebService
 import okhttp3.Request
 import retrofit2.Call
@@ -14,28 +14,33 @@ import javax.inject.Inject
 
 class LoginRepository @Inject constructor(private var loginApiWebService: LoginApiWebService) {
 
-    fun loginPostUserMariaServer(loginRequestModelMaria: LoginRequestModelMaria): MutableLiveData<LoginResponseModelRootMaria> {
+    fun loginUserRepo(loginRequestModel: LoginRequestModel): MutableLiveData<LoginResponseModelRoot> {
 
-        val loginResponseViewModel = MutableLiveData<LoginResponseModelRootMaria>()
+        val myJsonData: String = Gson().toJson(loginRequestModel)
+        Log.i("----> ", "Login Repo: $myJsonData")
 
-        loginApiWebService.loginUserMariaServer(loginRequestModelMaria)
-            .enqueue(object : Callback<LoginResponseModelRootMaria> {
-                override fun onFailure(call: Call<LoginResponseModelRootMaria>, t: Throwable) {
+        val loginResponseViewModel = MutableLiveData<LoginResponseModelRoot>()
+
+        loginApiWebService.loginUser(loginRequestModel)
+            .enqueue(object : Callback<LoginResponseModelRoot> {
+                override fun onFailure(call: Call<LoginResponseModelRoot>, t: Throwable) {
                     Log.i("----> ", "onFailure")
                     getNetworkInfoDataSuccessResponse(false, call.request())
-                    val loginResponseModelRootMaria: LoginResponseModelRootMaria? =
-                        LoginResponseModelRootMaria()
-                    loginResponseModelRootMaria?.success = false
-                    loginResponseViewModel.postValue(loginResponseModelRootMaria)
+                    val loginResponseModelRoot: LoginResponseModelRoot? =
+                        LoginResponseModelRoot()
+                    loginResponseModelRoot?.success = false
+                    loginResponseViewModel.postValue(loginResponseModelRoot)
                 }
 
                 override fun onResponse(
-                    call: Call<LoginResponseModelRootMaria>,
-                    response: Response<LoginResponseModelRootMaria>
+                    call: Call<LoginResponseModelRoot>,
+                    response: Response<LoginResponseModelRoot>
                 ) {
-                    Log.i("----> ", "onSuccess")
-                    val loginResponseModelRootMaria: LoginResponseModelRootMaria? = response.body()
-                    loginResponseViewModel.postValue(loginResponseModelRootMaria)
+                    val loginResponseModelRoot: LoginResponseModelRoot? = response.body()
+                    loginResponseViewModel.postValue(loginResponseModelRoot)
+                    Log.i("----> ", "onResponse - ${loginResponseModelRoot?.success}")
+                    val myJdsonData = Gson().toJson(response.body())
+                    Log.i("----> ", "Json data: $myJdsonData")
                 }
             })
         return loginResponseViewModel;
@@ -44,7 +49,7 @@ class LoginRepository @Inject constructor(private var loginApiWebService: LoginA
     fun getNetworkInfoDataSuccessResponse(
         isSuccess: Boolean,
         request: Request,
-        response: Response<LoginResponseModelRootMaria>? = null
+        response: Response<LoginResponseModelRoot>? = null
     ) {
         Log.i("----> ", "URL: " + request.url())
         Log.i("----> ", "Method: " + request.method())

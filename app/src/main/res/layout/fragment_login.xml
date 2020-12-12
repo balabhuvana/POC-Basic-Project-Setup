@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:maxLines="1"
-                android:text="@string/temp_email" />
+                android:text="@string/temp_user_name" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
