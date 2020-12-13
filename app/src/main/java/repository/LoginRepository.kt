@@ -43,7 +43,7 @@ class LoginRepository @Inject constructor(private var loginApiWebService: LoginA
                     Log.i("----> ", "Json data: $myJdsonData")
                 }
             })
-        return loginResponseViewModel;
+        return loginResponseViewModel
     }
 
     fun getNetworkInfoDataSuccessResponse(
