@@ -3,6 +3,7 @@ package util
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.Editable
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.Nullable
 import com.arunv.poc_basic_project_setup.R
@@ -98,6 +99,14 @@ class CommonUtils {
 
         fun showToastMessage(context: Context, message: String?) {
             Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+        }
+
+        fun showHideView(view: View, isToShow: Boolean) {
+            if (isToShow) {
+                view.visibility = View.VISIBLE
+            } else {
+                view.visibility = View.GONE
+            }
         }
     }
 

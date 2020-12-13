@@ -161,9 +161,10 @@ class RegistrationFragment : Fragment() {
         registrationRequestModel.emailId = et_email.text.toString().trim()
         registrationRequestModel.password = et_password_registration.text.toString().trim()
         registrationRequestModel.phoneNumber = et_phone_number.text.toString().toLong()
-        registrationRequestModel.firstName="apple"
-        registrationRequestModel.lastName="apple"
-        registrationRequestModel.countryCode="342"
+        registrationRequestModel.firstName = "apple"
+        registrationRequestModel.lastName = "apple"
+        registrationRequestModel.countryCode = "342"
+        CommonUtils.showHideView(progressBar, true)
         registrationViewModel.registerNewUserViewModel(registrationRequestModel)
 
         observeRegisterResponse(registrationViewModel)
@@ -172,6 +173,7 @@ class RegistrationFragment : Fragment() {
     private fun observeRegisterResponse(registrationViewModel: RegistrationViewModel) {
         registrationViewModel.registerResponseViewModelObservable()
             ?.observe(viewLifecycleOwner, Observer {
+                CommonUtils.showHideView(progressBar, false)
                 if (it.success!!) {
                     CommonUtils.showToastMessage(
                         this.context!!,
