@@ -90,16 +90,16 @@ class LoginFragment : Fragment() {
 
     private fun handleEditTextOperation() {
 
-        et_username_login.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isUsernameOrPasswordValid(et_username_login.text, 6)) {
-                et_username_login.error = null //Clear the error
+        et_username.setOnKeyListener { _, _, _ ->
+            if (CommonUtils.isUsernameOrPasswordValid(et_username.text, 6)) {
+                et_username.error = null //Clear the error
             }
             false
         }
 
-        et_password_login.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isUsernameOrPasswordValid(et_password_login.text, 8)) {
-                et_password_login.error = null //Clear the error
+        et_password.setOnKeyListener { _, _, _ ->
+            if (CommonUtils.isUsernameOrPasswordValid(et_password.text, 8)) {
+                et_password.error = null //Clear the error
             }
             false
         }
@@ -108,22 +108,22 @@ class LoginFragment : Fragment() {
 
 
     private fun handleUserNameValidation() {
-        if (!CommonUtils.isUsernameOrPasswordValid(et_username_login.text, 6)) {
-            et_username_login.error = getString(R.string.error_password)
+        if (!CommonUtils.isUsernameOrPasswordValid(et_username.text, 6)) {
+            et_username.error = getString(R.string.error_password)
             isValidInput = false
         } else {
             isValidInput = true
-            et_username_login.error = null
+            et_username.error = null
         }
     }
 
     private fun handlePasswordValidation() {
-        if (!CommonUtils.isUsernameOrPasswordValid(et_password_login.text, 6)) {
-            et_password_login.error = getString(R.string.error_password)
+        if (!CommonUtils.isUsernameOrPasswordValid(et_password.text, 6)) {
+            et_password.error = getString(R.string.error_password)
             isValidInput = false
         } else {
             isValidInput = true
-            et_password_login.error = null
+            et_password.error = null
         }
     }
 
@@ -145,8 +145,9 @@ class LoginFragment : Fragment() {
 
     private fun handleLoginViewModel() {
         val loginRequestModelMaria = LoginRequestModel()
-        loginRequestModelMaria.userName = et_username_login.text.toString().trim()
-        loginRequestModelMaria.userPassword = et_password_login.text.toString().trim()
+        loginRequestModelMaria.userName = et_username.text.toString().trim()
+        loginRequestModelMaria.userPassword = et_password.text.toString().trim()
+        CommonUtils.showHideView(progressBar, true)
         loginViewModel.loginUserViewModel(loginRequestModelMaria)
         observeLoginResponse(loginViewModel)
     }
@@ -154,6 +155,7 @@ class LoginFragment : Fragment() {
     private fun observeLoginResponse(loginViewModel: LoginViewModel) {
         loginViewModel.loginResponseViewModelObservable()?.observe(viewLifecycleOwner,
             Observer {
+                CommonUtils.showHideView(progressBar, false)
                 if (it.success!!) {
                     CommonUtils.showToastMessage(
                         this.context!!,

@@ -67,7 +67,7 @@ class RegistrationFragment : Fragment() {
             takeToLoginScreen()
         }
 
-        next_button_registration.setOnClickListener {
+        next_button.setOnClickListener {
             if ((requireActivity().checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
                 && (requireActivity().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED)
                 && (requireActivity().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)
@@ -113,11 +113,11 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun handlePasswordValidation() {
-        if (!CommonUtils.isUsernameOrPasswordValid(et_password_registration.text, 4)) {
-            et_password_registration.error = getString(R.string.error_password)
+        if (!CommonUtils.isUsernameOrPasswordValid(et_password.text, 4)) {
+            et_password.error = getString(R.string.error_password)
             isValidInput = false
         } else {
-            et_password_registration.error = null
+            et_password.error = null
             isValidInput = true
         }
     }
@@ -146,9 +146,9 @@ class RegistrationFragment : Fragment() {
             false
         }
 
-        et_password_registration.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isUsernameOrPasswordValid(et_password_registration.text, 6)) {
-                et_password_registration.error = null //Clear the error
+        et_password.setOnKeyListener { _, _, _ ->
+            if (CommonUtils.isUsernameOrPasswordValid(et_password.text, 6)) {
+                et_password.error = null //Clear the error
             }
             false
         }
@@ -159,7 +159,7 @@ class RegistrationFragment : Fragment() {
 
         registrationRequestModel.username = et_user_name.text.toString().trim()
         registrationRequestModel.emailId = et_email.text.toString().trim()
-        registrationRequestModel.password = et_password_registration.text.toString().trim()
+        registrationRequestModel.password = et_password.text.toString().trim()
         registrationRequestModel.phoneNumber = et_phone_number.text.toString().toLong()
         registrationRequestModel.firstName = "apple"
         registrationRequestModel.lastName = "apple"

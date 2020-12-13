@@ -81,7 +81,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ilEmail">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_password_registration"
+            android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -118,7 +118,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ilPhoneNumber">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/next_button_registration"
+            android:id="@+id/next_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -130,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
-            android:layout_toStartOf="@id/next_button_registration"
+            android:layout_toStartOf="@id/next_button"
             android:text="@string/button_cancel" />
 
     </RelativeLayout>
@@ -142,7 +142,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginBottom="132dp"
-        android:gravity="center"
         android:text="@string/all_ready_registered"
         android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
