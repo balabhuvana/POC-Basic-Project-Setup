@@ -3,13 +3,20 @@ package util
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.Editable
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.Nullable
 import com.arunv.poc_basic_project_setup.R
+import com.google.gson.Gson
+import model.LoginResponseModelRoot
+import model.RegisterRequestModel
+import model.RegisterResponseModel
+import okhttp3.Request
 import room.Patient
 import room.PatientDao
 
+@Suppress("UNCHECKED_CAST")
 class CommonUtils {
 
     companion object {
@@ -108,6 +115,34 @@ class CommonUtils {
                 view.visibility = View.GONE
             }
         }
-    }
 
+        fun logNetworkInfo(logObject: Any, methodName: String) {
+            Log.i("----> ", "MethodName : $methodName")
+            when (logObject) {
+                is LoginResponseModelRoot -> {
+                    Log.i("----> ", "LoginResponseModel : ${logObject.success}")
+                    logJsonObject(logObject)
+                }
+                is RegisterRequestModel -> {
+                    logJsonObject(logObject)
+                    Log.i("----> ", "RegisterRequestModel : ${logObject.firstName}")
+                }
+                is RegisterResponseModel -> {
+                    logJsonObject(logObject)
+                    Log.i("----> ", "RegisterRequestModel : ${logObject.success}")
+                }
+                is Request -> {
+                    Log.i("----> ", "URL: " + logObject.url())
+                    Log.i("----> ", "Method: " + logObject.method())
+                    Log.i("----> ", "isHttps: " + logObject.isHttps)
+                    logJsonObject(logObject)
+                }
+            }
+        }
+
+        private fun logJsonObject(responseObject: Any) {
+            val jsonData: String = Gson().toJson(responseObject)
+            Log.i("----> ", "Json data: $jsonData")
+        }
+    }
 }

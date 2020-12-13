@@ -1,16 +1,13 @@
 package repository
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
-import model.LoginResponseModelRoot
 import model.RegisterRequestModel
 import model.RegisterResponseModel
 import network.LoginApiWebService
-import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import util.CommonUtils
 import javax.inject.Inject
 
 class RegistrationRepository @Inject constructor(private var loginApiWebService: LoginApiWebService) {
@@ -22,11 +19,10 @@ class RegistrationRepository @Inject constructor(private var loginApiWebService:
         loginApiWebService.registerUser(registerRequestModel)
             .enqueue(object : Callback<RegisterResponseModel> {
                 override fun onFailure(call: Call<RegisterResponseModel>, t: Throwable) {
-                    Log.i("----> ", "Reg: onFailure")
-                    getNetworkInfoDataSuccessResponse(false, call.request())
                     val registerResponseModel = RegisterResponseModel()
                     registerResponseModel.success = false
                     registerResponseModelLiveData.postValue(registerResponseModel)
+                    CommonUtils.logNetworkInfo(registerResponseModel, "onFailure")
                 }
 
                 override fun onResponse(
@@ -35,28 +31,11 @@ class RegistrationRepository @Inject constructor(private var loginApiWebService:
                 ) {
                     val registerResponseModel: RegisterResponseModel? = response.body()
                     registerResponseModelLiveData.postValue(registerResponseModel)
+                    CommonUtils.logNetworkInfo(registerResponseModel!!, "onResponse")
                 }
             })
 
         return registerResponseModelLiveData
 
-    }
-
-    fun getNetworkInfoDataSuccessResponse(
-        isSuccess: Boolean,
-        request: Request,
-        response: Response<LoginResponseModelRoot>? = null
-    ) {
-        Log.i("----> ", "URL: " + request.url())
-        Log.i("----> ", "Method: " + request.method())
-        Log.i("----> ", "isHttps: " + request.isHttps)
-
-        if (isSuccess) {
-            val myJsonData = Gson().toJson(response?.body())
-
-            Log.i("----> ", "Json data: $myJsonData")
-            Log.i("----> ", "Response Code: " + response?.code())
-            Log.i("----> ", "raw: " + response?.raw())
-        }
     }
 }

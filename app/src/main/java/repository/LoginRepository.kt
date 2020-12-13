@@ -6,10 +6,10 @@ import com.google.gson.Gson
 import model.LoginRequestModel
 import model.LoginResponseModelRoot
 import network.LoginApiWebService
-import okhttp3.Request
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import util.CommonUtils
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(private var loginApiWebService: LoginApiWebService) {
@@ -24,12 +24,11 @@ class LoginRepository @Inject constructor(private var loginApiWebService: LoginA
         loginApiWebService.loginUser(loginRequestModel)
             .enqueue(object : Callback<LoginResponseModelRoot> {
                 override fun onFailure(call: Call<LoginResponseModelRoot>, t: Throwable) {
-                    Log.i("----> ", "onFailure")
-                    getNetworkInfoDataSuccessResponse(false, call.request())
                     val loginResponseModelRoot: LoginResponseModelRoot? =
                         LoginResponseModelRoot()
                     loginResponseModelRoot?.success = false
                     loginResponseViewModel.postValue(loginResponseModelRoot)
+                    CommonUtils.logNetworkInfo(loginRequestModel, "onFailure")
                 }
 
                 override fun onResponse(
@@ -38,29 +37,9 @@ class LoginRepository @Inject constructor(private var loginApiWebService: LoginA
                 ) {
                     val loginResponseModelRoot: LoginResponseModelRoot? = response.body()
                     loginResponseViewModel.postValue(loginResponseModelRoot)
-                    Log.i("----> ", "onResponse - ${loginResponseModelRoot?.success}")
-                    val myJdsonData = Gson().toJson(response.body())
-                    Log.i("----> ", "Json data: $myJdsonData")
+                    CommonUtils.logNetworkInfo(loginResponseModelRoot!!, "onResponse")
                 }
             })
         return loginResponseViewModel
-    }
-
-    fun getNetworkInfoDataSuccessResponse(
-        isSuccess: Boolean,
-        request: Request,
-        response: Response<LoginResponseModelRoot>? = null
-    ) {
-        Log.i("----> ", "URL: " + request.url())
-        Log.i("----> ", "Method: " + request.method())
-        Log.i("----> ", "isHttps: " + request.isHttps)
-
-        if (isSuccess) {
-            val myJsonData = Gson().toJson(response?.body())
-
-            Log.i("----> ", "Json data: $myJsonData")
-            Log.i("----> ", "Response Code: " + response?.code())
-            Log.i("----> ", "raw: " + response?.raw())
-        }
     }
 }
