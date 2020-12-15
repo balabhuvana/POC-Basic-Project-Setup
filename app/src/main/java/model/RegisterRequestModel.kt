@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 class RegisterRequestModel {
     @SerializedName("username")
     @Expose
-    var username: String? = null
+    var userName: String? = null
 
     @SerializedName("firstname")
     @Expose
@@ -18,11 +18,7 @@ class RegisterRequestModel {
 
     @SerializedName("phonenumber")
     @Expose
-    var phoneNumber: Long? = null
-
-    @SerializedName("emailid")
-    @Expose
-    var emailId: String? = null
+    var phoneNumber: String? = null
 
     @SerializedName("password")
     @Expose

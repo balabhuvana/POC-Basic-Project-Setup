@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [User::class, Patient::class],
+    entities = [User::class, Patient::class, RegisterRequestRoomModel::class],
     version = 1,
     exportSchema = false
 )

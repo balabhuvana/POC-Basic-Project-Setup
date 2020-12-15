@@ -18,9 +18,12 @@ import com.arunv.poc_basic_project_setup.R
 import dagger.AppModule
 import dagger.DaggerAppComponent
 import dagger.NetworkModule
+import dagger.RoomModule
 import kotlinx.android.synthetic.main.fragment_registration.*
 import model.RegisterRequestModel
+import room.RegisterRequestRoomModel
 import util.CommonUtils
+import util.CommonUtils.Companion.showToastMessage
 import util.PermissionUtil
 import viewmodels.RegistrationViewModel
 import javax.inject.Inject
@@ -40,7 +43,7 @@ class RegistrationFragment : Fragment() {
             .appModule(AppModule(activity!!.application))
             .networkModule(
                 NetworkModule()
-            )
+            ).roomModule(RoomModule(activity!!.application))
             .build()
             .inject(this)
     }
@@ -81,7 +84,6 @@ class RegistrationFragment : Fragment() {
 
     private fun tapOnNext() {
         handleUserNameValidation()
-        handleEmailValidation()
         handlePasswordValidation()
         if (isValidInput) {
             handleRegisterViewModel()
@@ -97,18 +99,6 @@ class RegistrationFragment : Fragment() {
         } else {
             et_user_name.error = null
             isValidInput = true
-        }
-    }
-
-    private fun handleEmailValidation() {
-        if (CommonUtils
-                .isValidEmailAddress(et_email.text)
-        ) {
-            et_email.error = null
-            isValidInput = true
-        } else {
-            et_email.error = getString(R.string.error_email)
-            isValidInput = false
         }
     }
 
@@ -139,13 +129,6 @@ class RegistrationFragment : Fragment() {
             false
         }
 
-        et_email.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isUsernameOrPasswordValid(et_email.text, 6)) {
-                et_email.error = null //Clear the error
-            }
-            false
-        }
-
         et_password.setOnKeyListener { _, _, _ ->
             if (CommonUtils.isUsernameOrPasswordValid(et_password.text, 6)) {
                 et_password.error = null //Clear the error
@@ -157,10 +140,9 @@ class RegistrationFragment : Fragment() {
     private fun handleRegisterViewModel() {
         val registrationRequestModel = RegisterRequestModel()
 
-        registrationRequestModel.username = et_user_name.text.toString().trim()
-        registrationRequestModel.emailId = et_email.text.toString().trim()
+        registrationRequestModel.userName = et_user_name.text.toString().trim()
         registrationRequestModel.password = et_password.text.toString().trim()
-        registrationRequestModel.phoneNumber = et_phone_number.text.toString().toLong()
+        registrationRequestModel.phoneNumber = et_phone_number.text.toString()
         registrationRequestModel.firstName = "apple"
         registrationRequestModel.lastName = "apple"
         registrationRequestModel.countryCode = "342"
@@ -175,18 +157,44 @@ class RegistrationFragment : Fragment() {
             ?.observe(viewLifecycleOwner, Observer {
                 CommonUtils.showHideView(progressBar, false)
                 if (it.success!!) {
-                    CommonUtils.showToastMessage(
+                    insertUserRecord()
+                } else {
+                    showToastMessage(
                         this.context!!,
                         it.message
                     )
-                    takeToHomeScreen()
-                } else {
-                    CommonUtils.showToastMessage(
-                        this.context!!,
-                        getString(R.string.error_please_try_again)
-                    )
                 }
             })
+    }
+
+    private fun insertUserRecord() {
+        val registerRequestRoomModel = RegisterRequestRoomModel()
+        registerRequestRoomModel.userName = et_user_name.text.toString().trim()
+        registerRequestRoomModel.password = et_password.text.toString().trim()
+        registerRequestRoomModel.phoneNumber = et_phone_number.text.toString()
+        registerRequestRoomModel.firstName = "apple"
+        registerRequestRoomModel.lastName = "apple"
+        registerRequestRoomModel.countryCode = "342"
+
+        registrationViewModel.insertUserRecord(registerRequestRoomModel)
+        registrationViewModel.selectUserRecord(registerRequestRoomModel)
+        observeRegistrationViewModelLiveData()
+    }
+
+    private fun observeRegistrationViewModelLiveData() {
+        registrationViewModel.observeUserRecord()?.observe(viewLifecycleOwner, Observer { user ->
+            Thread.sleep(2000)
+            if (user != null) {
+                showToastMessage(
+                    this.context!!
+                    , "User record inserted successfully"
+                )
+                takeToHomeScreen()
+                CommonUtils.showHideView(progressBar, false)
+            } else {
+                showToastMessage(this.context!!, "User record is not inserted successfully")
+            }
+        })
     }
 
     private fun takeToHomeScreen() {

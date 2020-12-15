@@ -18,6 +18,7 @@ import com.arunv.poc_basic_project_setup.R
 import dagger.AppModule
 import dagger.DaggerAppComponent
 import dagger.NetworkModule
+import dagger.RoomModule
 import kotlinx.android.synthetic.main.fragment_login.*
 import model.LoginRequestModel
 import util.CommonUtils
@@ -39,7 +40,7 @@ class LoginFragment : Fragment() {
             .appModule(AppModule(activity!!.application))
             .networkModule(
                 NetworkModule()
-            )
+            ).roomModule(RoomModule(activity!!.application))
             .build()
             .inject(this)
     }

@@ -140,7 +140,7 @@ class CommonUtils {
             }
         }
 
-        private fun logJsonObject(responseObject: Any) {
+        fun logJsonObject(responseObject: Any) {
             val jsonData: String = Gson().toJson(responseObject)
             Log.i("----> ", "Json data: $jsonData")
         }

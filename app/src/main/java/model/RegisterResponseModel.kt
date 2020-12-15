@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 class RegisterResponseModel {
     @SerializedName("data")
     @Expose
-    var data: LoginResponseModel? = null
+    var data: String? = null
 
     @SerializedName("success")
     @Expose

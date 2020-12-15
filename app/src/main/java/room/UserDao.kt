@@ -24,4 +24,10 @@ interface UserDao {
     @Query("SELECT * from user_table where user_name = :userName and user_password =:userPassword LIMIT 1")
     fun getUserRecordWithPassword(userName: Int, userPassword: String): LiveData<User>
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertUserMariaData(registerRequestRoomModel: RegisterRequestRoomModel?): Long
+
+    @Query("SELECT * from user_maria_table where user_name = :userName LIMIT 1")
+    fun getUserRecordMaria(userName: String): LiveData<RegisterRequestRoomModel>
+
 }
