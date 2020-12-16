@@ -13,8 +13,6 @@ import model.LoginResponseModelRoot
 import model.RegisterRequestModel
 import model.RegisterResponseModel
 import okhttp3.Request
-import room.Patient
-import room.PatientDao
 
 @Suppress("UNCHECKED_CAST")
 class CommonUtils {
@@ -53,10 +51,6 @@ class CommonUtils {
                 Log.i("----->", "exp : ${exp.printStackTrace()}")
             }
         }*/
-
-        private fun updateSMS(patientDao: PatientDao, patient: Patient) {
-            patientDao.updatePatientSmsStatus(patient)
-        }
 
         fun saveUserLoginDetailInSharedPreferences(context: Context, userName: String) {
             val sharedPreferences: SharedPreferences? = context.getSharedPreferences(

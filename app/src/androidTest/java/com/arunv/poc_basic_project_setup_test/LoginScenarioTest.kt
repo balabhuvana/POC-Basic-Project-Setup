@@ -17,7 +17,6 @@ import com.arunv.poc_basic_project_setup.R
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import room.User
 import room.UserDao
 import room.UserRoomDatabase
 

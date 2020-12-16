@@ -2,7 +2,6 @@ package dagger
 
 import android.app.Application
 import androidx.room.Room
-import room.PatientDao
 import room.UserDao
 import room.UserRoomDatabase
 import javax.inject.Singleton
@@ -22,12 +21,6 @@ class RoomModule(mApplication: Application) {
     @Provides
     fun providesUserDao(userRoomDatabase: UserRoomDatabase): UserDao {
         return userRoomDatabase.userDao()
-    }
-
-    @Singleton
-    @Provides
-    fun providesPatientDao(userRoomDatabase: UserRoomDatabase): PatientDao {
-        return userRoomDatabase.patientDao()
     }
 
     init {

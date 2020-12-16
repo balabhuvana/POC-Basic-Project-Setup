@@ -9,7 +9,6 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.arunv.poc_basic_project_setup_test.LiveDataTestUtil.getValue
 import org.junit.*
 import org.junit.runner.RunWith
-import room.User
 import room.UserDao
 import room.UserRoomDatabase
 import java.io.IOException

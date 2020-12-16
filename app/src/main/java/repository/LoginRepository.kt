@@ -1,6 +1,7 @@
 package repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import model.LoginRequestModel
@@ -9,10 +10,17 @@ import network.LoginApiWebService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import room.RegisterRequestRoomModel
+import room.UserDao
 import util.CommonUtils
 import javax.inject.Inject
 
-class LoginRepository @Inject constructor(private var loginApiWebService: LoginApiWebService) {
+class LoginRepository @Inject constructor(
+    private var userDao: UserDao,
+    private var loginApiWebService: LoginApiWebService
+) {
+
+    private var userLiveData: LiveData<RegisterRequestRoomModel>? = null
 
     fun loginUserRepo(loginRequestModel: LoginRequestModel): MutableLiveData<LoginResponseModelRoot> {
 
@@ -41,5 +49,10 @@ class LoginRepository @Inject constructor(private var loginApiWebService: LoginA
                 }
             })
         return loginResponseViewModel
+    }
+
+    fun selectUserRecordDatabase(userName: String, password: String): LiveData<RegisterRequestRoomModel> {
+        userLiveData = userDao.getUserRecordMariaWithPassword(userName, password)
+        return userLiveData as LiveData<RegisterRequestRoomModel>
     }
 }

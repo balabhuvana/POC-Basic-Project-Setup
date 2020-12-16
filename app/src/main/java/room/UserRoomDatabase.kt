@@ -6,14 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [User::class, Patient::class, RegisterRequestRoomModel::class],
+    entities = [RegisterRequestRoomModel::class],
     version = 1,
     exportSchema = false
 )
 abstract class UserRoomDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
-    abstract fun patientDao(): PatientDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
@@ -30,7 +29,7 @@ abstract class UserRoomDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     UserRoomDatabase::class.java,
-                    "user_database_two"
+                    "user_database_four"
                 ).allowMainThreadQueries().build()
                 INSTANCE = instance
                 return instance
