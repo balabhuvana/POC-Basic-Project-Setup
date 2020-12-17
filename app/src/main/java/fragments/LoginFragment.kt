@@ -69,8 +69,8 @@ class LoginFragment : Fragment() {
             ) {
 //                tapOnNext()
 //                loginGetRequestMariaServer()
-//                handleLoginViewModel()
-                validateUserRecordWithDatabase()
+                handleLoginViewModel()
+//                validateUserRecordWithDatabase()
             } else {
                 PermissionUtil.requestMultiplePermission()
             }
