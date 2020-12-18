@@ -12,6 +12,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.arunv.poc_basic_project_setup.R
 import kotlinx.android.synthetic.main.fragment_splash.*
+import util.CommonUtils
 
 class SplashFragment : Fragment() {
 
@@ -26,7 +27,11 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        launchLoginFragment()
+        if (validateUserIsLogin()) {
+            launchHomeFragment()
+        } else {
+            launchLoginFragment()
+        }
     }
 
     private fun launchLoginFragment() {
@@ -44,6 +49,19 @@ class SplashFragment : Fragment() {
 
     private fun showOrHideProgressBar(showOrHide: Int) {
         splashProgressBar.visibility = showOrHide
+    }
+
+    private fun validateUserIsLogin(): Boolean {
+        return CommonUtils.isUserLogined(this.activity!!)
+    }
+
+    private fun launchHomeFragment() {
+        val username: String = CommonUtils.getUserName(this.requireContext())!!
+        SplashFragmentDirections.actionSplashToLoginFragment()
+        val homeNavDirections: NavDirections =
+            SplashFragmentDirections.actionSplashFragmentToHomeScreen(username)
+        val navController: NavController = findNavController()
+        navController.navigate(homeNavDirections)
     }
 
 }

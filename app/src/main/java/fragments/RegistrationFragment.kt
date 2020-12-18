@@ -189,7 +189,7 @@ class RegistrationFragment : Fragment() {
                     this.context!!
                     , "User record inserted successfully"
                 )
-                takeToHomeScreen()
+                takeToHomeScreen(user.userName!!)
                 CommonUtils.showHideView(progressBar, false)
             } else {
                 showToastMessage(this.context!!, "User record is not inserted successfully")
@@ -197,9 +197,9 @@ class RegistrationFragment : Fragment() {
         })
     }
 
-    private fun takeToHomeScreen() {
+    private fun takeToHomeScreen(userName: String) {
         val homeScreenDirection: NavDirections =
-            RegistrationFragmentDirections.actionRegistrationFragmentToHomeScreen()
+            RegistrationFragmentDirections.actionRegistrationFragmentToHomeScreen(userNameArgs = userName)
         val navigationController: NavController = findNavController()
         navigationController.navigate(homeScreenDirection)
     }
