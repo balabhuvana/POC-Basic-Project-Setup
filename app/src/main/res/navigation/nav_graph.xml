@@ -29,7 +29,12 @@
             android:id="@+id/action_loginFragment_to_homeScreen"
             app:destination="@id/homeScreen"
             app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true">
+            <argument
+                android:name="userNameArgs"
+                android:defaultValue="1"
+                app:argType="string" />
+        </action>
     </fragment>
 
     <fragment
@@ -48,6 +53,13 @@
         android:id="@+id/homeScreen"
         android:name="fragments.HomeScreen"
         android:label="HomeScreen"
-        tools:layout="@layout/fragment_home_screen" />
+        tools:layout="@layout/fragment_home_screen">
+
+        <argument
+            android:name="userNameArgs"
+            android:defaultValue="1"
+            app:argType="string" />
+
+    </fragment>
 
 </navigation>

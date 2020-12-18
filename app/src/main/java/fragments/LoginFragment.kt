@@ -138,9 +138,9 @@ class LoginFragment : Fragment() {
         navigationController.navigate(registrationDirection)
     }
 
-    private fun takeToHomeScreen() {
+    private fun takeToHomeScreen(username: String) {
         val registrationDirection: NavDirections =
-            LoginFragmentDirections.actionLoginFragmentToHomeScreen()
+            LoginFragmentDirections.actionLoginFragmentToHomeScreen(userNameArgs = username)
 
         val navigationController: NavController = findNavController()
         navigationController.navigate(registrationDirection)
@@ -152,7 +152,7 @@ class LoginFragment : Fragment() {
         loginRequestModelMaria.userPassword = et_password.text.toString().trim()
         CommonUtils.showHideView(progressBar, true)
         loginViewModel.loginUserViewModel(loginRequestModelMaria)
-        observeLoginResponse(loginViewModel)
+        observeLoginResponse(loginViewModel, loginRequestModelMaria.userName!!)
     }
 
     private fun validateUserRecordWithDatabase() {
@@ -160,7 +160,7 @@ class LoginFragment : Fragment() {
         observeRegistrationViewModelLiveData()
     }
 
-    private fun observeLoginResponse(loginViewModel: LoginViewModel) {
+    private fun observeLoginResponse(loginViewModel: LoginViewModel, username: String) {
         loginViewModel.loginResponseViewModelObservable()?.observe(viewLifecycleOwner,
             Observer {
                 CommonUtils.showHideView(progressBar, false)
@@ -169,7 +169,7 @@ class LoginFragment : Fragment() {
                         this.context!!,
                         it.message
                     )
-                    takeToHomeScreen()
+                    takeToHomeScreen(username)
                 } else {
                     CommonUtils.showToastMessage(
                         this.context!!,
@@ -180,14 +180,15 @@ class LoginFragment : Fragment() {
     }
 
     private fun observeRegistrationViewModelLiveData() {
-        loginViewModel.observeUserRecordViaViewModel()?.observe(viewLifecycleOwner, Observer { user ->
-            Thread.sleep(2000)
-            if (user != null) {
-                Log.i("----> ", "" + user.userName)
-            } else {
-                Log.i("----> ", "" + user?.userName)
-            }
-        })
+        loginViewModel.observeUserRecordViaViewModel()
+            ?.observe(viewLifecycleOwner, Observer { user ->
+                Thread.sleep(2000)
+                if (user != null) {
+                    Log.i("----> ", "" + user.userName)
+                } else {
+                    Log.i("----> ", "" + user?.userName)
+                }
+            })
     }
 
 }
