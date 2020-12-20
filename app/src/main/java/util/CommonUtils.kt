@@ -97,7 +97,7 @@ class CommonUtils {
             return (text != null && text.length >= length) && isValidEmailAddress(text)
         }
 
-        fun isValidEmailAddress(@Nullable text: String?): Boolean {
+        private fun isValidEmailAddress(@Nullable text: String?): Boolean {
             return text.toString().trim().matches(emailPattern.toRegex())
         }
 
@@ -137,7 +137,7 @@ class CommonUtils {
             }
         }
 
-        fun logJsonObject(responseObject: Any) {
+        private fun logJsonObject(responseObject: Any) {
             val jsonData: String = Gson().toJson(responseObject)
             Log.i("----> ", "Json data: $jsonData")
         }
