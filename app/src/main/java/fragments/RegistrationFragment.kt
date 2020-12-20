@@ -114,7 +114,7 @@ class RegistrationFragment : Fragment() {
 
     private fun takeToLoginScreen() {
         val registrationDirection: NavDirections =
-            LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
+            RegistrationFragmentDirections.actionRegistrationFragmentToLoginFragment()
 
         val navigationController: NavController = findNavController()
         navigationController.navigate(registrationDirection)
