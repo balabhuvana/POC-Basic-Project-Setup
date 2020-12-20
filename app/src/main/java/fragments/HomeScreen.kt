@@ -44,7 +44,7 @@ class HomeScreen : Fragment() {
     }
 
     private fun setWelcomeMessage(userName: String) {
-        val welcomeMessage: String = getString(R.string.welcome_user_name, userName.toString())
+        val welcomeMessage: String = getString(R.string.welcome_user_name, userName)
         tvUsername.text = welcomeMessage
     }
 
