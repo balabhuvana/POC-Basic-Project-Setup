@@ -93,7 +93,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun handleUserNameValidation() {
-        if (!CommonUtils.isUsernameOrPasswordValid(et_user_name.text, 6)) {
+        if (!CommonUtils.isValidUserName(et_user_name.text.toString(), 6)) {
             et_user_name.error = getString(R.string.error_username)
             isValidInput = false
         } else {
@@ -103,7 +103,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun handlePasswordValidation() {
-        if (!CommonUtils.isUsernameOrPasswordValid(et_password.text, 4)) {
+        if (!CommonUtils.isValidPasswordValid(et_password.text.toString(), 4)) {
             et_password.error = getString(R.string.error_password)
             isValidInput = false
         } else {
@@ -123,14 +123,14 @@ class RegistrationFragment : Fragment() {
     private fun handleEditTextOperation() {
 
         et_user_name.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isUsernameOrPasswordValid(et_user_name.text, 6)) {
+            if (CommonUtils.isValidUserName(et_user_name.text.toString(), 6)) {
                 et_user_name.error = null //Clear the error
             }
             false
         }
 
         et_password.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isUsernameOrPasswordValid(et_password.text, 6)) {
+            if (CommonUtils.isValidPasswordValid(et_password.text.toString(), 6)) {
                 et_password.error = null //Clear the error
             }
             false

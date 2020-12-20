@@ -90,14 +90,14 @@ class LoginFragment : Fragment() {
     private fun handleEditTextOperation() {
 
         et_username.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isUsernameOrPasswordValid(et_username.text, 6)) {
+            if (CommonUtils.isValidUserName(et_username.text.toString(), 6)) {
                 et_username.error = null //Clear the error
             }
             false
         }
 
         et_password.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isUsernameOrPasswordValid(et_password.text, 8)) {
+            if (CommonUtils.isValidPasswordValid(et_password.text.toString(), 8)) {
                 et_password.error = null //Clear the error
             }
             false
@@ -107,7 +107,7 @@ class LoginFragment : Fragment() {
 
 
     private fun handleUserNameValidation() {
-        if (!CommonUtils.isUsernameOrPasswordValid(et_username.text, 6)) {
+        if (!CommonUtils.isValidUserName(et_username.text.toString(), 6)) {
             et_username.error = getString(R.string.error_password)
             isValidInput = false
         } else {
@@ -117,7 +117,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun handlePasswordValidation() {
-        if (!CommonUtils.isUsernameOrPasswordValid(et_password.text, 6)) {
+        if (!CommonUtils.isValidPasswordValid(et_password.text.toString(), 6)) {
             et_password.error = getString(R.string.error_password)
             isValidInput = false
         } else {

@@ -2,7 +2,6 @@ package util
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -90,11 +89,15 @@ class CommonUtils {
             sharedPref.edit().clear().apply()
         }
 
-        fun isUsernameOrPasswordValid(@Nullable text: Editable?, length: Int): Boolean {
+        fun isValidPasswordValid(@Nullable text: String?, length: Int): Boolean {
             return text != null && text.length >= length
         }
 
-        fun isValidEmailAddress(@Nullable text: Editable?): Boolean {
+        fun isValidUserName(@Nullable text: String?, length: Int): Boolean {
+            return (text != null && text.length >= length) && isValidEmailAddress(text)
+        }
+
+        fun isValidEmailAddress(@Nullable text: String?): Boolean {
             return text.toString().trim().matches(emailPattern.toRegex())
         }
 
