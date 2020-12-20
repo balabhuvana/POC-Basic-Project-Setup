@@ -5,7 +5,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,10 +66,7 @@ class LoginFragment : Fragment() {
                 && (requireActivity().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED)
                 && (requireActivity().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)
             ) {
-//                tapOnNext()
-//                loginGetRequestMariaServer()
-                handleLoginViewModel()
-//                validateUserRecordWithDatabase()
+                tapOnNext()
             } else {
                 PermissionUtil.requestMultiplePermission()
             }
@@ -170,18 +166,6 @@ class LoginFragment : Fragment() {
                         this.context!!,
                         getString(R.string.error_please_try_again)
                     )
-                }
-            })
-    }
-
-    private fun observeRegistrationViewModelLiveData() {
-        loginViewModel.observeUserRecordViaViewModel()
-            ?.observe(viewLifecycleOwner, Observer { user ->
-                Thread.sleep(2000)
-                if (user != null) {
-                    Log.i("----> ", "" + user.userName)
-                } else {
-                    Log.i("----> ", "" + user?.userName)
                 }
             })
     }
