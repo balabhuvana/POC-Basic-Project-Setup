@@ -139,11 +139,11 @@ class LoginFragment : Fragment() {
     }
 
     private fun takeToHomeScreen(username: String) {
-        val registrationDirection: NavDirections =
+        val loginFragmentDirections: NavDirections =
             LoginFragmentDirections.actionLoginFragmentToHomeScreen(userNameArgs = username)
 
         val navigationController: NavController = findNavController()
-        navigationController.navigate(registrationDirection)
+        navigationController.navigate(loginFragmentDirections)
     }
 
     private fun handleLoginViewModel() {
@@ -153,11 +153,6 @@ class LoginFragment : Fragment() {
         CommonUtils.showHideView(progressBar, true)
         loginViewModel.loginUserViewModel(loginRequestModelMaria)
         observeLoginResponse(loginViewModel, loginRequestModelMaria.userName!!)
-    }
-
-    private fun validateUserRecordWithDatabase() {
-        loginViewModel.selectUserRecordViaViewModel(et_username.text.toString().trim(),et_password.text.toString().trim())
-        observeRegistrationViewModelLiveData()
     }
 
     private fun observeLoginResponse(loginViewModel: LoginViewModel, username: String) {
