@@ -61,7 +61,7 @@ class LoginFragment : Fragment() {
 
         handleEditTextOperation()
 
-        next_button.setOnClickListener {
+        btn_next.setOnClickListener {
             if ((requireActivity().checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
                 && (requireActivity().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED)
                 && (requireActivity().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)
@@ -164,7 +164,7 @@ class LoginFragment : Fragment() {
                 } else {
                     CommonUtils.showToastMessage(
                         this.context!!,
-                        getString(R.string.error_please_try_again)
+                        it.message
                     )
                 }
             })

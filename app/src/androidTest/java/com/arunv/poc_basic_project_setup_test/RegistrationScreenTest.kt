@@ -14,37 +14,32 @@ import org.junit.runner.RunWith
 class RegistrationScreenTest {
 
     @Then("^I should see the register screen ui")
-    fun I_should_see_the_register_screen_ui() {
+    fun i_should_see_the_register_screen_ui() {
 
-        onView(ViewMatchers.withId(R.id.etUserName))
+        onView(ViewMatchers.withId(R.id.et_username))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        onView(ViewMatchers.withId(R.id.etPassword))
+        onView(ViewMatchers.withId(R.id.et_password))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        onView(ViewMatchers.withId(R.id.etConfirmPassword))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-        onView(ViewMatchers.withId(R.id.btnRegister))
+        onView(ViewMatchers.withId(R.id.btn_next))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
     @Then("^I should validate the register screen ui input")
-    fun I_should_validate_the_register_screen_ui_input() {
+    fun i_should_validate_the_register_screen_ui_input() {
 
-        onView(ViewMatchers.withId(R.id.etUserName))
+        onView(ViewMatchers.withId(R.id.et_username))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        onView(ViewMatchers.withId(R.id.etPassword))
+        onView(ViewMatchers.withId(R.id.et_password))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        onView(ViewMatchers.withId(R.id.etConfirmPassword))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
     @When("^I enter the confirm password \"([^\"]*)\"$")
-    fun I_enter_the_confirm_password(confirmPassword: String) {
-        onView(ViewMatchers.withId(R.id.etConfirmPassword))
+    fun i_enter_the_confirm_password(confirmPassword: String) {
+        onView(ViewMatchers.withId(R.id.et_password))
             .perform(ViewActions.typeText(confirmPassword), ViewActions.click())
     }
 

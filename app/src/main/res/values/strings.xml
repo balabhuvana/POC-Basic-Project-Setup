@@ -43,4 +43,6 @@
     <string name="temp_phone_number">3453678454</string>
 
     <string name="error_please_try_again">Something wrong please try again</string>
+    <string name="error_please_enter_valid_user_data">Please enter valid user data</string>
+    <string name="error_user_not_found">User Not Found</string>
 </resources>

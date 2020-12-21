@@ -12,13 +12,11 @@ import org.junit.runner.RunWith
 class HomeScreenTest {
 
     @Then("^I should see the home screen ui")
-    fun I_should_see_the_home_screen_ui() {
+    fun i_should_see_the_home_screen_ui() {
 
-        onView(ViewMatchers.withId(R.id.tvUserName))
+        onView(ViewMatchers.withId(R.id.tvUsername))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        onView(ViewMatchers.withId(R.id.btnStartNextScreen))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
 }

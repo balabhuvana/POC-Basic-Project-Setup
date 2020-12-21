@@ -21,12 +21,12 @@ import org.junit.runner.RunWith
 class CommonUtilSteps {
 
     @Then("^I should not see the keyboard")
-    fun I_should_not_see_the_keyboard() {
+    fun i_should_not_see_the_keyboard() {
         Espresso.pressBack()
     }
 
     @And("^I wait for ([^\"]*) (second)$")
-    fun I_wait(number: String, units: String) {
+    fun i_wait(number: String, units: String) {
         var value = 0
         val count = number.toInt()
         if (units.startsWith("second")) {
@@ -36,13 +36,13 @@ class CommonUtilSteps {
     }
 
     @Then("^I should see the \"([^\"]*)\"$")
-    fun I_should_see_the(textToValidate: String) {
+    fun i_should_see_the(textToValidate: String) {
         onView(withText(textToValidate)).inRoot(ToastMatcher())
             .check(matches(isDisplayed()))
     }
 
     @When("^I press back button")
-    fun I_press_back_button() {
+    fun i_press_back_button() {
         Espresso.pressBack()
     }
 

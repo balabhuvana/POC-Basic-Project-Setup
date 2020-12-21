@@ -10,6 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.arunv.poc_basic_project_setup.R
+import com.arunv.poc_basic_project_setup.SingleActivity
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.runner.RunWith
@@ -23,44 +24,38 @@ import org.junit.runner.RunWith
 class LoginScreenTest {
 
     @When("^Launch the single activity")
-    fun Launch_the_single_activity() {
+    fun launch_the_single_activity() {
         ActivityScenario.launch(SingleActivity::class.java)
     }
 
     @Then("^I should see the login ui")
-    fun I_should_see_the_login_ui() {
+    fun i_should_see_the_login_ui() {
 
-        onView(withId(R.id.tvUserName))
+        onView(withId(R.id.et_username))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        onView(withId(R.id.etUserName))
+        onView(withId(R.id.et_password))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        onView(withId(R.id.tvPassword))
+        onView(withId(R.id.btn_next))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
-        onView(withId(R.id.etPassword))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-        onView(withId(R.id.btnLogin))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-
-        onView(withId(R.id.btnRegister))
+        onView(withId(R.id.tv_new_to_app))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
     @When("^I enter the username \"([^\"]*)\"$")
-    fun I_enter_the_username(userName: String) {
-        onView(withId(R.id.etUserName)).perform(typeText(userName), click())
+    fun i_enter_the_username(userName: String) {
+        onView(withId(R.id.et_username)).perform(typeText(userName), click())
     }
 
     @When("^I enter the password \"([^\"]*)\"$")
-    fun I_enter_the_password(password: String) {
-        onView(withId(R.id.etPassword)).perform(typeText(password), click())
+    fun i_enter_the_password(password: String) {
+        onView(withId(R.id.et_password)).perform(typeText(password), click())
     }
 
     @Then("^I should able to see the entered input \"([^\"]*)\" and \"([^\"]*)\"$")
-    fun I_should_able_to_see_the_entered_input(userName: String, password: String) {
+    fun i_should_able_to_see_the_entered_input(userName: String, password: String) {
         onView(withText(userName))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
         onView(withText(password))
@@ -68,13 +63,14 @@ class LoginScreenTest {
     }
 
     @When("^I press login button$")
-    fun I_press_login_button() {
-        onView(withId(R.id.btnLogin)).perform(click())
+    fun i_press_login_button() {
+        CommonUITestUtils.showOrHidKeyBoard(false)
+        onView(withId(R.id.btn_next)).perform(click())
     }
 
     @When("^I press register button$")
-    fun I_press_register_button_from_login_screen() {
-        onView(withId(R.id.btnRegister)).perform(click())
+    fun i_press_register_button_from_login_screen() {
+        onView(withId(R.id.tv_all_ready_registered)).perform(click())
     }
 
 }

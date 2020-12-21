@@ -9,6 +9,7 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.arunv.poc_basic_project_setup_test.LiveDataTestUtil.getValue
 import org.junit.*
 import org.junit.runner.RunWith
+import room.RegisterRequestRoomModel
 import room.UserDao
 import room.UserRoomDatabase
 import java.io.IOException
@@ -39,20 +40,21 @@ class RoomDataTest {
     @Test
     @Throws(Exception::class)
     fun writeUserAndReadDataFromRoom() {
-        val user: User = User()
-        user.userName = "1005"
-        user.password = "abdcef"
-        val id=userDao.insertUser(user)
-        Log.i("-----> ", "" + id)
 
-        val user2 = User()
-        user2.userName = "1007"
-        user2.password = "asdfg"
-        val id1=userDao.insertUser(user)
+        val registerRequestRoomModelOne = RegisterRequestRoomModel()
+        registerRequestRoomModelOne.userName = "arunv@gmail.com"
+        registerRequestRoomModelOne.password = "abcd123"
+        val idOne = userDao.insertUserMariaData(registerRequestRoomModelOne)
+        Log.i("-----> ", "" + idOne)
 
-        Log.i("-----> ", "" +id1)
+        val registerRequestRoomModelTwo = RegisterRequestRoomModel()
+        registerRequestRoomModelTwo.userName = "arunv@gmail.com"
+        registerRequestRoomModelTwo.password = "abcd123"
+        val idTwo = userDao.insertUserMariaData(registerRequestRoomModelTwo)
 
-        val selectUser = getValue(userDao.getUserList()).size
+        Log.i("-----> ", "" + idTwo)
+
+        val selectUser = getValue(userDao.getUserListLogin()).size
         Log.i("-----> ", "" + selectUser)
         Assert.assertNotNull(selectUser)
 

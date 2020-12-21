@@ -14,9 +14,11 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.arunv.poc_basic_project_setup.R
+import com.arunv.poc_basic_project_setup.SingleActivity
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import room.RegisterRequestRoomModel
 import room.UserDao
 import room.UserRoomDatabase
 
@@ -33,13 +35,13 @@ class LoginScenarioTest {
     fun launchActivity() {
         ActivityScenario.launch(SingleActivity::class.java)
         Thread.sleep(5000)
-        onView(withId(R.id.btnLogin))
+        onView(withId(R.id.btn_next))
             .check(matches(isDisplayed()))
 
-        onView(withId(R.id.etUserName))
+        onView(withId(R.id.et_username))
             .perform(ViewActions.typeText("1003"), click())
 
-        onView(withId(R.id.etPassword))
+        onView(withId(R.id.et_password))
             .perform(ViewActions.typeText("abcd"), click())
 
         val context = ApplicationProvider.getApplicationContext<Context>()
@@ -48,20 +50,19 @@ class LoginScenarioTest {
         ).build()
         userDao = userRoomDatabase.userDao()
 
-        val user = User()
-        user.userName = "1003"
-        user.password = "abcd"
-        val id = userDao.insertUser(user)
+        val registerRequestRoomModel = RegisterRequestRoomModel()
+        registerRequestRoomModel.userName = "arunv@gmail.com"
+        registerRequestRoomModel.password = "abcd123"
+        val id = userDao.insertUserMariaData(registerRequestRoomModel)
 
         Log.i("-----> ", "" + id)
 
         Log.i(
             "-----> ",
-            "" + LiveDataTestUtil.getValue(userDao.getUserRecord(user.userName.toInt())).userName
+            "" + LiveDataTestUtil.getValue(userDao.getUserRecordMaria(registerRequestRoomModel.userName!!)).userName
         )
-        Log.i("-----> ", "" + LiveDataTestUtil.getValue(userDao.getUserList()).size)
 
-        onView(withId(R.id.btnLogin)).perform(click())
+        onView(withId(R.id.btn_next)).perform(click())
 
         Thread.sleep(5000)
     }

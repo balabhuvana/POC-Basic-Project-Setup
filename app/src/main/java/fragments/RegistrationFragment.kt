@@ -70,7 +70,7 @@ class RegistrationFragment : Fragment() {
             takeToLoginScreen()
         }
 
-        next_button.setOnClickListener {
+        btn_next.setOnClickListener {
             if ((requireActivity().checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
                 && (requireActivity().checkSelfPermission(Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_GRANTED)
                 && (requireActivity().checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)
@@ -93,11 +93,11 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun handleUserNameValidation() {
-        if (!CommonUtils.isValidUserName(et_user_name.text.toString(), 6)) {
-            et_user_name.error = getString(R.string.error_username)
+        if (!CommonUtils.isValidUserName(et_username.text.toString(), 6)) {
+            et_username.error = getString(R.string.error_username)
             isValidInput = false
         } else {
-            et_user_name.error = null
+            et_username.error = null
             isValidInput = true
         }
     }
@@ -122,9 +122,9 @@ class RegistrationFragment : Fragment() {
 
     private fun handleEditTextOperation() {
 
-        et_user_name.setOnKeyListener { _, _, _ ->
-            if (CommonUtils.isValidUserName(et_user_name.text.toString(), 6)) {
-                et_user_name.error = null //Clear the error
+        et_username.setOnKeyListener { _, _, _ ->
+            if (CommonUtils.isValidUserName(et_username.text.toString(), 6)) {
+                et_username.error = null //Clear the error
             }
             false
         }
@@ -140,7 +140,7 @@ class RegistrationFragment : Fragment() {
     private fun handleRegisterViewModel() {
         val registrationRequestModel = RegisterRequestModel()
 
-        registrationRequestModel.userName = et_user_name.text.toString().trim()
+        registrationRequestModel.userName = et_username.text.toString().trim()
         registrationRequestModel.password = et_password.text.toString().trim()
         registrationRequestModel.phoneNumber = et_phone_number.text.toString()
         registrationRequestModel.firstName = "apple"
@@ -169,7 +169,7 @@ class RegistrationFragment : Fragment() {
 
     private fun insertUserRecord() {
         val registerRequestRoomModel = RegisterRequestRoomModel()
-        registerRequestRoomModel.userName = et_user_name.text.toString().trim()
+        registerRequestRoomModel.userName = et_username.text.toString().trim()
         registerRequestRoomModel.password = et_password.text.toString().trim()
         registerRequestRoomModel.phoneNumber = et_phone_number.text.toString()
         registerRequestRoomModel.firstName = "apple"
