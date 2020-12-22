@@ -85,6 +85,7 @@ class RegistrationFragment : Fragment() {
     private fun tapOnNext() {
         handleUserNameValidation()
         handlePasswordValidation()
+        handlePhoneNumberValidation()
         if (isValidInput) {
             handleRegisterViewModel()
         } else {
@@ -108,6 +109,16 @@ class RegistrationFragment : Fragment() {
             isValidInput = false
         } else {
             et_password.error = null
+            isValidInput = true
+        }
+    }
+
+    private fun handlePhoneNumberValidation() {
+        if (!CommonUtils.isValidPhoneNumber(et_phone_number.text.toString(), 10)) {
+            et_phone_number.error = getString(R.string.error_phone_number)
+            isValidInput = false
+        } else {
+            et_phone_number.error = null
             isValidInput = true
         }
     }

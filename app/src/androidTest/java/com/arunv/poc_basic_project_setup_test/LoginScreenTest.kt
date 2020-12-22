@@ -54,6 +54,11 @@ class LoginScreenTest {
         onView(withId(R.id.et_password)).perform(typeText(password), click())
     }
 
+    @When("^I enter the phone number \"([^\"]*)\"$")
+    fun i_enter_the_phone_number(password: String) {
+        onView(withId(R.id.et_phone_number)).perform(typeText(password), click())
+    }
+
     @Then("^I should able to see the entered input \"([^\"]*)\" and \"([^\"]*)\"$")
     fun i_should_able_to_see_the_entered_input(userName: String, password: String) {
         onView(withText(userName))
@@ -70,7 +75,7 @@ class LoginScreenTest {
 
     @When("^I press register button$")
     fun i_press_register_button_from_login_screen() {
-        onView(withId(R.id.tv_all_ready_registered)).perform(click())
+        onView(withId(R.id.tv_new_to_app)).perform(click())
     }
 
 }

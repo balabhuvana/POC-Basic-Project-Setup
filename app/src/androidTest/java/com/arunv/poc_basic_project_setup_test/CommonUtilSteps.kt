@@ -1,7 +1,9 @@
 package com.arunv.poc_basic_project_setup_test
 
+import android.util.Log
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -37,8 +39,20 @@ class CommonUtilSteps {
 
     @Then("^I should see the \"([^\"]*)\"$")
     fun i_should_see_the(textToValidate: String) {
-        onView(withText(textToValidate)).inRoot(ToastMatcher())
-            .check(matches(isDisplayed()))
+        for (i in 1..5) {
+            try {
+                onView(withText(textToValidate)).inRoot(ToastMatcher())
+                    .check(matches(isDisplayed()))
+                break
+            } catch (noMatchingViewException: NoMatchingViewException) {
+                CommonUITestUtils.pause(1000)
+                Log.i(
+                    "----> ",
+                    "NoMatchingViewException : " + noMatchingViewException.viewMatcherDescription
+                )
+            }
+
+        }
     }
 
     @When("^I press back button")

@@ -97,6 +97,10 @@ class CommonUtils {
             return (text != null && text.length >= length) && isValidEmailAddress(text)
         }
 
+        fun isValidPhoneNumber(@Nullable text: String?, length: Int): Boolean {
+            return text != null && text.length >= length
+        }
+
         private fun isValidEmailAddress(@Nullable text: String?): Boolean {
             return text.toString().trim().matches(emailPattern.toRegex())
         }
