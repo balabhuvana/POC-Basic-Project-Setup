@@ -8,10 +8,12 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import cucumber.api.java.en.And
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 import org.junit.runner.RunWith
+import util.CommonUtils
 
 
 /**
@@ -58,6 +60,11 @@ class CommonUtilSteps {
     @When("^I press back button")
     fun i_press_back_button() {
         Espresso.pressBack()
+    }
+
+    @When("^I clear shared preference data")
+    fun i_clear_shared_preference_data() {
+        CommonUtils.clearUserData(InstrumentationRegistry.getInstrumentation().targetContext)
     }
 
 
