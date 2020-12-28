@@ -7,10 +7,7 @@ import javax.inject.Singleton
 
 
 @Module
-class NetworkModule() {
-
-    private val BASE_URL =
-        "https://62jnymp7n4.execute-api.us-east-2.amazonaws.com/Prod/api/CustomerLogin/"
+class NetworkModule(private val baseUrl: String) {
 
 
     @Singleton
@@ -23,7 +20,7 @@ class NetworkModule() {
     @get:Provides
     val retrofit: Retrofit
         get() = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

@@ -14,11 +14,8 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import com.arunv.poc_basic_project_setup.BaseApplication
 import com.arunv.poc_basic_project_setup.R
-import dagger.AppModule
-import dagger.DaggerAppComponent
-import dagger.NetworkModule
-import dagger.RoomModule
 import kotlinx.android.synthetic.main.fragment_registration.*
 import model.RegisterRequestModel
 import room.RegisterRequestRoomModel
@@ -39,13 +36,9 @@ class RegistrationFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        DaggerAppComponent.builder()
-            .appModule(AppModule(activity!!.application))
-            .networkModule(
-                NetworkModule()
-            ).roomModule(RoomModule(activity!!.application))
-            .build()
-            .inject(this)
+        (activity?.application as BaseApplication).appComponent
+            ?.inject(this)
+
     }
 
     override fun onCreateView(
