@@ -1,5 +1,7 @@
 package com.arunv.poc_basic_project_setup_test
 
+import android.app.Application
+import android.content.Context
 import android.os.Bundle
 import androidx.test.runner.MonitoringInstrumentation
 import cucumber.api.CucumberOptions
@@ -27,4 +29,12 @@ class Instrumentation : MonitoringInstrumentation() {
         waitForIdleSync()
         instrumentationCore.start()
     }
+
+    override fun newApplication(
+        cl: ClassLoader?, className: String?,
+        context: Context?
+    ): Application {
+        return super.newApplication(cl, UiTestApp::class.java.name, context)
+    }
+
 }

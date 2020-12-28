@@ -7,7 +7,7 @@ import javax.inject.Singleton
 
 
 @Module
-class NetworkModule(private val baseUrl: String) {
+open class NetworkModule(private val baseUrl: String) {
 
 
     @Singleton
@@ -18,7 +18,7 @@ class NetworkModule(private val baseUrl: String) {
     }
 
     @get:Provides
-    val retrofit: Retrofit
+    open val retrofit: Retrofit
         get() = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())

@@ -1,5 +1,6 @@
 package repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.GlobalScope
@@ -48,6 +49,8 @@ class RegistrationRepository @Inject constructor(
                     registerResponseModel.success = false
                     registerResponseModelLiveData.postValue(registerResponseModel)
                     CommonUtils.logNetworkInfo(registerResponseModel, "onFailure")
+                    Log.i("----> ", "Message ; " + t.message)
+                    Log.i("----> ", "Url : " + call.request().url)
                 }
 
                 override fun onResponse(
@@ -56,6 +59,7 @@ class RegistrationRepository @Inject constructor(
                 ) {
                     val registerResponseModel: RegisterResponseModel? = response.body()
                     registerResponseModelLiveData.postValue(registerResponseModel)
+                    Log.i("----> ", "onResponse : " + registerResponseModel?.message)
 //                    CommonUtils.logNetworkInfo(registerResponseModel!!, "onResponse")
                 }
             })

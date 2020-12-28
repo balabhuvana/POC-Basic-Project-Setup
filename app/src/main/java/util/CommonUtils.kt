@@ -133,8 +133,9 @@ class CommonUtils {
                     Log.i("----> ", "RegisterRequestModel : ${logObject.success}")
                 }
                 is Request -> {
-                    Log.i("----> ", "URL: " + logObject.url())
-                    Log.i("----> ", "Method: " + logObject.method())
+                    Log.i("----> ", "URL: " + logObject.
+                    url)
+                    Log.i("----> ", "Method: " + logObject.method)
                     Log.i("----> ", "isHttps: " + logObject.isHttps)
                     logJsonObject(logObject)
                 }
