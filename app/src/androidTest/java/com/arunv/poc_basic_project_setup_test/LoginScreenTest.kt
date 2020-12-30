@@ -15,10 +15,7 @@ import com.arunv.poc_basic_project_setup.R
 import com.arunv.poc_basic_project_setup.SingleActivity
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
-import okhttp3.mockwebserver.Dispatcher
-import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import okhttp3.mockwebserver.RecordedRequest
 import org.junit.runner.RunWith
 
 /**
