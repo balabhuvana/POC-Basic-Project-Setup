@@ -90,22 +90,7 @@ class LoginScreenTest {
     @When("^I validate mock server with register screen$")
     fun i_validate_mock_server_with_register_screen() {
         mockWebServer.start(8080)
-        mockWebServer.dispatcher = object : Dispatcher() {
-            override fun dispatch(request: RecordedRequest): MockResponse {
-                return MockResponse()
-                    .setResponseCode(200)
-                    .setBody(
-                        "{" +
-                                "\"data\": \"testworld04@reqres.in\"," + "  \"success\": true," + "  \"message\": \"Asshole User Registered\"\n" + "}"
-                    )
-            }
-        }
-
-        onView(withId(R.id.et_username)).perform(ViewActions.clearText())
-        onView(withId(R.id.et_username)).perform(
-            typeText("autotest72@gmail.com"),
-            click()
-        )
+        mockWebServer.dispatcher = SuccessDispatcher()
         Espresso.closeSoftKeyboard()
         onView(withId(R.id.btn_next)).perform(click())
         Thread.sleep(5000)
@@ -117,22 +102,7 @@ class LoginScreenTest {
     @When("^I validate mock server with login screen$")
     fun i_validate_mock_server_with_login_screen() {
         mockWebServer.start(8080)
-        mockWebServer.dispatcher = object : Dispatcher() {
-            override fun dispatch(request: RecordedRequest): MockResponse {
-                return MockResponse()
-                    .setResponseCode(200)
-                    .setBody(
-                        "{" +
-                                "\"data\": \"eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4MiIsInVuaXF1ZV9uYW1lIjoicGhvbmUxMEB2YWlkLmNvbSIsIm5iZiI6MTYwOTEzODM2MCwiZXhwIjoxNjA5MjI0NzYwLCJpYXQiOjE2MDkxMzgzNjB9.YaT4KFsjGO88gJJrBkT9iBprjJ5GEIVCSgyJUs9rjFmt2upeu8aXjRPt5660cpd2\"," + "  \"success\": true," + "  \"message\": \"Login Success\"\n" + "}"
-                    )
-            }
-        }
-
-        onView(withId(R.id.et_username)).perform(ViewActions.clearText())
-        onView(withId(R.id.et_username)).perform(
-            typeText("autotest72@gmail.com"),
-            click()
-        )
+        mockWebServer.dispatcher = SuccessDispatcher()
         Espresso.closeSoftKeyboard()
         onView(withId(R.id.btn_next)).perform(click())
         Thread.sleep(5000)
@@ -144,23 +114,7 @@ class LoginScreenTest {
     @When("^I validate mock server with register with login screen$")
     fun i_validate_mock_server_with_register_with_login_screen() {
         mockWebServer.start(8080)
-
-        mockWebServer.dispatcher = object : Dispatcher() {
-            override fun dispatch(request: RecordedRequest): MockResponse {
-                return MockResponse()
-                    .setResponseCode(200)
-                    .setBody(
-                        "{" +
-                                "\"data\": \"testworld04@reqres.in\"," + "  \"success\": true," + "  \"message\": \"Asshole User Registered\"\n" + "}"
-                    )
-            }
-        }
-
-        onView(withId(R.id.et_username)).perform(ViewActions.clearText())
-        onView(withId(R.id.et_username)).perform(
-            typeText("autotest72@gmail.com"),
-            click()
-        )
+        mockWebServer.dispatcher = SuccessDispatcher()
         Espresso.closeSoftKeyboard()
         onView(withId(R.id.btn_next)).perform(click())
         Thread.sleep(5000)
@@ -181,21 +135,41 @@ class LoginScreenTest {
 
         onView(withId(R.id.et_password)).perform(typeText("pass123"), click())
 
-        mockWebServer.dispatcher = object : Dispatcher() {
-            override fun dispatch(request: RecordedRequest): MockResponse {
-                return MockResponse()
-                    .setResponseCode(200)
-                    .setBody(
-                        "{" +
-                                "\"data\": \"eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4MiIsInVuaXF1ZV9uYW1lIjoicGhvbmUxMEB2YWlkLmNvbSIsIm5iZiI6MTYwOTEzODM2MCwiZXhwIjoxNjA5MjI0NzYwLCJpYXQiOjE2MDkxMzgzNjB9.YaT4KFsjGO88gJJrBkT9iBprjJ5GEIVCSgyJUs9rjFmt2upeu8aXjRPt5660cpd2\"," + "  \"success\": true," + "  \"message\": \"Login Success\"\n" + "}"
-                    )
-            }
-        }
+        mockWebServer.dispatcher = SuccessDispatcher()
 
         CommonUITestUtils.showOrHidKeyBoard(false)
         onView(withId(R.id.btn_next)).perform(click())
 
         mockWebServer.shutdown()
     }
+
+    // Sample example directly hard coding the json data
+
+    /*@When("^I validate mock server with register screen$")
+    fun i_validate_mock_server_with_register_screen() {
+        mockWebServer.start(8080)
+        mockWebServer.dispatcher = object : Dispatcher() {
+            override fun dispatch(request: RecordedRequest): MockResponse {
+                return MockResponse()
+                    .setResponseCode(200)
+                    .setBody(
+                        "{" +
+                                "\"data\": \"testworld04@reqres.in\"," + "  \"success\": true," + "  \"message\": \"Asshole User Registered\"\n" + "}"
+                    )
+            }
+        }
+
+        onView(withId(R.id.et_username)).perform(ViewActions.clearText())
+        onView(withId(R.id.et_username)).perform(
+            typeText("autotest72@gmail.com"),
+            click()
+        )
+        Espresso.closeSoftKeyboard()
+        onView(withId(R.id.btn_next)).perform(click())
+        Thread.sleep(5000)
+        onView(withId(R.id.tvUsername)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+
+        mockWebServer.shutdown()
+    }*/
 
 }
